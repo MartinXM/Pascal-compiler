@@ -1,0 +1,8 @@
+program a;
+var 
+i:real;
+begin
+read(i);
+i:=i-1.34;
+writeln(i);
+end.
