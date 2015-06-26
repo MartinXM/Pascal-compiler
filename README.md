@@ -1,2 +1,2 @@
 # Pascal-compiler
-Input parscal source code and generate asm code
+Input pascal source code and generate asm code
