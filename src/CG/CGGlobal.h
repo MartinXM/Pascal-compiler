@@ -7,7 +7,7 @@
 #include <sstream>
 
 void cgerror(const char *message) {
-	printf("%s\n", message);
+	printf("Code Generation Error: %s\n", message);
 	exit(1);
 }
 
