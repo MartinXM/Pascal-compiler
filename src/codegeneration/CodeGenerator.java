@@ -29,6 +29,7 @@ public class CodeGenerator {
         Map<Object, Generator> expGenerators = new HashMap<>();
         expGenerators.put(ExpKind.ID, new CGExpId(this));
         expGenerators.put(ExpKind.CONST, new CGExpConst(this));
+        expGenerators.put(ExpKind.OP, new CGExpOp(this));
 
         Map<Object, Generator> declGenerators = new HashMap<>();
 
@@ -48,7 +49,7 @@ public class CodeGenerator {
     }
 
     public void generate(TreeNode node) {
-        generateCode(node, "out.asm");
+        generate(node, "out.asm");
     }
 
     void writeDataLine(String line) {
@@ -61,7 +62,7 @@ public class CodeGenerator {
 
     public void generate(TreeNode node, String fileName) {
         beforeGC();
-        generateCode(node, fileName);
+        generateCode(node);
         afterGC();
         writeFinalFile(fileName);
     }
@@ -86,7 +87,12 @@ public class CodeGenerator {
         }
     }
 
-    protected void generateCode(TreeNode node, String fileName) {
-        generators.get(node.getKind().getClass()).get(node.getKind()).generateCode(node, fileName);
+    protected void generateCode(TreeNode node) {
+        generators.get(node.getKind().getClass()).get(node.getKind()).generateCode(node);
+    }
+
+    public void error(int lineNumber, String message) {
+        System.out.println("Code generation error(line " + lineNumber + "): " + message);
+        System.exit(1);
     }
 }

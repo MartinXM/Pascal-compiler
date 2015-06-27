@@ -13,7 +13,7 @@ public class CGExpConst extends Generator {
     }
 
     @Override
-    void generateCode(TreeNode node, String fileName) {
+    void generateCode(TreeNode node) {
 
         if (node.getType() != ExpType.REAL) {
             int value;

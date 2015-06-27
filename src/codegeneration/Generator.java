@@ -13,6 +13,6 @@ public abstract class Generator {
         this.codeGenerator = codeGenerator;
     }
 
-    abstract void generateCode(TreeNode node, String fileName);
+    abstract void generateCode(TreeNode node);
 
 }
