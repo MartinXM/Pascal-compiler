@@ -14,13 +14,19 @@ public class TreeNode {
 
     private int lineno;
 
+    private Object kind;
+
+    private Object attribute;
+
     private ExpType type;
 
     private ExpType runningType;
 
-    private Object attribute;
-
     public TreeNode() {
+    }
+
+    public List<TreeNode> getChildren() {
+        return children;
     }
 
     public void addChild(TreeNode node) {
@@ -47,6 +53,22 @@ public class TreeNode {
         this.lineno = lineno;
     }
 
+    public Object getKind() {
+        return kind;
+    }
+
+    public void setKind(Object kind) {
+        this.kind = kind;
+    }
+
+    public Object getAttribute() {
+        return attribute;
+    }
+
+    public void setAttribute(Object attribute) {
+        this.attribute = attribute;
+    }
+
     public ExpType getType() {
         return type;
     }
@@ -61,13 +83,5 @@ public class TreeNode {
 
     public void setRunningType(ExpType runningType) {
         this.runningType = runningType;
-    }
-
-    public Object getAttribute() {
-        return attribute;
-    }
-
-    public void setAttribute(Object attribute) {
-        this.attribute = attribute;
     }
 }
