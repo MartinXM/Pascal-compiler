@@ -17,11 +17,11 @@ void CGExpConst::operator()(TreeNode *pnode) {
 	
 	if (pnode->type != EXPTYPE_REAL) {
 		int value;
-		switch (pnode->type) {
-			case EXPTYPE_INT:
-			case EXPTYPE_BOOL: value = pnode->attr.val; break;
-			case EXPTYPE_CHAR: value = pnode->attr.char_val; break;
-			default: cgerror("Unsupported type");
+		if (pnode->type == EXPTYPE_CHAR) {
+			value = pnode->attr.char_val;
+		}
+		else {
+			value = pnode->attr.val;
 		}
 		stringstream ss;
 		ss << "mov eax, " << value;
