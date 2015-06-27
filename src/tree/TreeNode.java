@@ -12,7 +12,7 @@ public class TreeNode {
 
     private TreeNode sibling;
 
-    private int lineno;
+    private int lineNumber;
 
     private Object kind;
 
@@ -45,12 +45,12 @@ public class TreeNode {
         this.sibling = sibling;
     }
 
-    public int getLineno() {
-        return lineno;
+    public int getLineNumber() {
+        return lineNumber;
     }
 
-    public void setLineno(int lineno) {
-        this.lineno = lineno;
+    public void setLineNumber(int lineNumber) {
+        this.lineNumber = lineNumber;
     }
 
     public Object getKind() {
