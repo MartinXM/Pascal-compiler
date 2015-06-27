@@ -15,7 +15,7 @@ CodeGenerator::CodeGenerator() {
 	// functions[NODE_STATEMENT][STMT_PROC_ID] = new CGProcId(this);
 	// functions[NODE_STATEMENT][STMT_PROC_SYS] = new CGProcSys(this);
 
-	// functions[NODE_EXPRESSION][EXP_ID] = new CGExpId(this);
+	functions[NODE_EXPRESSION][EXP_ID] = new CGExpId(this);
 	// functions[NODE_EXPRESSION][EXP_CONST] = new CGExpConst(this);
 	// functions[NODE_EXPRESSION][EXP_OP] = new CGExpOp(this);
 	// functions[NODE_EXPRESSION][EXP_CASE] = new CGExpCase(this);

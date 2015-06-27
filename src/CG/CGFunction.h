@@ -11,6 +11,14 @@ class CGFunction {
 private:
 	CodeGenerator *codeGenerator;
 
+protected:
+	void writelnData(string str) {
+		codeGenerator.writelnData(str);
+	}
+	void writelnCode(string str) {
+		codeGenerator.writelnCode(str);
+	}
+
 public:
 	CGFunction(CodeGenerator *cg) : codeGenerator(cg) {}
 

@@ -6,6 +6,11 @@
 #include <map>
 #include <sstream>
 
+void cgerror(const char *message) {
+	printf("%s\n", message);
+	exit(1);
+}
+
 #define YYPARSER
 
 #include "../global.h"
@@ -14,5 +19,6 @@
 #include "CGFunction.h"
 #include "Utility.h"
 #include "CGExpId.h"
+#include "CGExpConst.h"
 
 #endif
