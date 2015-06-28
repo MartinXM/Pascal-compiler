@@ -16,22 +16,36 @@ public class CGExpOp extends Generator {
     @Override
     void generateCode(TreeNode node) {
 
-        if (node.getChildren().size() == 1) {
-            codeGenerator.generateCode(node.getChildren().get(0));  // 计算左操作数
+        if (node.getChildren().size() == 2) {
+
+            TreeNode child1 = node.getChildren().get(0);
+            TreeNode child2 = node.getChildren().get(1);
+
+            codeGenerator.generateCode(child1);  // 计算左操作数
             codeGenerator.writeCodeLine("push eax");
-            codeGenerator.generateCode(node.getChildren().get(1));  // 计算右操作数
+            codeGenerator.generateCode(child2);  // 计算右操作数
             codeGenerator.writeCodeLine("push eax");
-        } else if (node.getChildren().size() == 2) {
+
+            if (child1.getRunningType() != child2.getRunningType()) {
+                codeGenerator.error(node.getLineNumber(), "Different running type on the both sides of operator.");
+            }
+
+            node.setRunningType(child1.getRunningType());
+
+        } else if (node.getChildren().size() == 1) {
             // 单目运算符，目前只支持正负号，左操作数为0
             codeGenerator.writeCodeLine("push 0");
             codeGenerator.generateCode(node.getChildren().get(0));
             codeGenerator.writeCodeLine("push eax");
+
+            node.setRunningType(node.getChildren().get(0).getRunningType());
+
         } else {
             codeGenerator.error(node.getLineNumber(), "Operator with unsupported number of operand.");
         }
 
         OpKind opKind = (OpKind)node.getAttribute();
-        if (node.getType() != ExpType.REAL) {
+        if (node.getRunningType() != ExpType.REAL) {
             codeGenerator.writeCodeLine("pop ebx");
             codeGenerator.writeCodeLine("pop eax");
             switch (opKind) {

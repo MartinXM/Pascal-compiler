@@ -23,7 +23,7 @@ public class CGStmtOutput extends Generator {
             codeGenerator.generateCode(child, false);
             codeGenerator.writeCodeLine("pusha");
 
-            if (child.getType() == ExpType.REAL) {
+            if (child.getRunningType() == ExpType.REAL) {
                 codeGenerator.writeCodeLine("push eax");
                 codeGenerator.writeCodeLine("fld dword ptr [esp]");
                 codeGenerator.writeCodeLine("sub esp, 4");
@@ -36,12 +36,14 @@ public class CGStmtOutput extends Generator {
                 codeGenerator.writeCodeLine("call printf");
                 codeGenerator.writeCodeLine("add esp, 8");
                 codeGenerator.writeCodeLine("pop eax");
-            } else {
+            } else if (child.getRunningType() == ExpType.INT) {
                 if ((OpKind)node.getAttribute() == OpKind.WRITELN) {
                     codeGenerator.writeCodeLine("invoke printf,offset lb_writeln_int, eax");
                 } else {
                     codeGenerator.writeCodeLine("invoke printf,offset lb_write_int, eax");
                 }
+            } else {
+                codeGenerator.error(node.getLineNumber(), "Unknown running type.");
             }
 
             codeGenerator.writeCodeLine("popa");

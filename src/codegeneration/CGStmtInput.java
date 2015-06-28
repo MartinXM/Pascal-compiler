@@ -22,9 +22,9 @@ public class CGStmtInput extends Generator {
             codeGenerator.generateCode(child, false);   // 获取目标变量的地址
 
             codeGenerator.writeCodeLine("pusha");
-            if (child.getType() != ExpType.REAL) {
+            if (child.getRunningType() == ExpType.INT) {
                 codeGenerator.writeCodeLine("invoke crt_scanf, addr lb_read_int, addr lb_tmp");
-            } else {
+            } else if (child.getRunningType() == ExpType.REAL) {
                 codeGenerator.writeCodeLine("invoke crt_scanf, addr lb_read_real, addr lb_tmp");
             }
             codeGenerator.writeCodeLine("popa");

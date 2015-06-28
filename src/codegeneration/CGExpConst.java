@@ -23,10 +23,13 @@ public class CGExpConst extends Generator {
                 value = (Integer)node.getAttribute();
             }
             codeGenerator.writeCodeLine("mov eax, " + value);
+            node.setRunningType(ExpType.INT);
         } else {
             double value = (Double)node.getAttribute();
             String realDataLabel = LabelManager.getDataLabel(value, codeGenerator);
             codeGenerator.writeCodeLine("mov eax, " + realDataLabel);
+
+            node.setRunningType(ExpType.REAL);
         }
     }
 }
