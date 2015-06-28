@@ -91,7 +91,6 @@ string \".*\"
 {newline}   {lineno++;}
 {whitespace}    {}
 %%
-
 TokenType getToken(){
     static int firstTime=True;
     TokenType currentToken;
@@ -101,6 +100,7 @@ TokenType getToken(){
         yyin = source;
         yyout = listing;
     }
+    //更新token
     currentToken = yylex();
     strncpy(previoustokenString,tokenString,MAXTOKENLEN);
     strncpy(tokenString,yytext,MAXTOKENLEN);

@@ -453,7 +453,7 @@ repeat_stmt         :   TOKEN_REPEAT stmt_list TOKEN_UNTIL expression
                             $$->child[0]=$2;
                             $$->child[1]=$4;
                         }
-                    |
+                    ;
 while_stmt          :   TOKEN_WHILE expression TOKEN_DO stmt
                         {   $$=newStmtNode(STMT_WHILE);
                             $$->child[0]=$2;

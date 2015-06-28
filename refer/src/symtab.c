@@ -55,112 +55,112 @@ static int totalOffset[50];
 
 /*=========================定义对符号表的插入操作=================================*/
 
-/*build a newone sub-bound type definition*/
-SubBoundDef newoneSubBoundDef(ExpType type, void* lower, void* upper) {
-	SubBoundDef newone = (SubBoundDef) malloc(sizeof(struct SubBoundDefRec));
-	newone.boundType = type;
+/*build a new sub-bound type definition*/
+SubBoundDef newSubBoundDef(ExpType type, void* lower, void* upper) {
+	SubBoundDef new = (SubBoundDef) malloc(sizeof(struct SubBoundDefRec));
+	new->boundType = type;
 	if(type == EXPTYPE_INT) {
-		newone.LowerBound.i = *(int*)lower;
-		newone.UpperBound.i = *(int*)upper;	
+		new->LowerBound.i = *(int*)lower;
+		new->UpperBound.i = *(int*)upper;	
 	} else if(type == EXPTYPE_CHAR) {
-		newone.LowerBound.c = *(char*)lower;
-		newone.UpperBound.c = *(char*)upper;
+		new->LowerBound.c = *(char*)lower;
+		new->UpperBound.c = *(char*)upper;
 	} else if(type == EXPTYPE_SIMPLE_ENUM) {
-		newone.LowerBound.m = (char*)lower;
-		newone.UpperBound.m = (char*)upper;
+		new->LowerBound.m = (char*)lower;
+		new->UpperBound.m = (char*)upper;
 	}
 
-	return newone;
+	return new;
 }
 
-/*build a newone array definition*/
-ArrayDef newoneArrayDef(ExpType arrayType, ExpType boundType, void* lower, void* upper) {
-	ArrayDef newone = (ArrayDef) malloc(sizeof(struct ArrayDefRec));
-	newone.arrayType = arrayType;
-	newone.subBound = newoneSubBoundDef(boundType, lower, upper);
+/*build a new array definition*/
+ArrayDef newArrayDef(ExpType arrayType, ExpType boundType, void* lower, void* upper) {
+	ArrayDef new = (ArrayDef) malloc(sizeof(struct ArrayDefRec));
+	new->arrayType = arrayType;
+	new->subBound = newSubBoundDef(boundType, lower, upper);
 
-	return newone;
+	return new;
 }
 
-/*build a newone enum definition*/
-EnumDef newoneEnumDef(char* mark) {
-	EnumDef newone = (EnumDef) malloc(sizeof(struct EnumDefRec));
-	newone.mark = mark;
-	newone.next = NULL;
+/*build a new enum definition*/
+EnumDef newEnumDef(char* mark) {
+	EnumDef new = (EnumDef) malloc(sizeof(struct EnumDefRec));
+	new->mark = mark;
+	new->next = NULL;
 
-	return newone;
+	return new;
 }
 
 EnumDef insertEnumDef(EnumDef enumList, char* mark) {
-	while(enumList.next != NULL)
-		enumList = enumList.next;
-	enumList.next = newoneEnumDef(mark);
+	while(enumList->next != NULL)
+		enumList = enumList->next;
+	enumList->next = newEnumDef(mark);
 	
-	return enumList.next; 
+	return enumList->next; 
 }
 
-/*build a newone type list node*/
-TypeList newoneTypeDef(char* name, ExpType type, int nestLevel, void* pAttr, int size) {
-	TypeList newone = (TypeList) malloc(sizeof(struct TypeListRec));
-	newone.name = name;
-	newone.type = type;
-	newone.nestLevel = nestLevel;
-	newone.pAttr = pAttr;
-	newone.size = size;
-	newone.next = NULL;
+/*build a new type list node*/
+TypeList newTypeDef(char* name, ExpType type, int nestLevel, void* pAttr, int size) {
+	TypeList new = (TypeList) malloc(sizeof(struct TypeListRec));
+	new->name = name;
+	new->type = type;
+	new->nestLevel = nestLevel;
+	new->pAttr = pAttr;
+	new->size = size;
+	new->next = NULL;
 
-	return newone;
+	return new;
 }
 
 TypeList insertTypeDef(TypeList typeList, char* name, ExpType type, int nestLevel, void* pAttr, int size) {
-	while(typeList.next != NULL)
-		typeList = typeList.next;
-	typeList.next = newoneTypeDef(name, type, nestLevel, pAttr, size);
+	while(typeList->next != NULL)
+		typeList = typeList->next;
+	typeList->next = newTypeDef(name, type, nestLevel, pAttr, size);
 
-	return typeList.next;
+	return typeList->next;
 }
 
-/*build a newone record definition*/
-RecordDef newoneDefinedRecord(TypeList ptr) {
-	RecordDef newone = (RecordDef) malloc(sizeof(struct RecordNodeRec));
-	newone.type = DEFINED;
-	newone.ptr.pDef = ptr;
-	newone.next = NULL;
+/*build a new record definition*/
+RecordDef newDefinedRecord(TypeList ptr) {
+	RecordDef new = (RecordDef) malloc(sizeof(struct RecordNodeRec));
+	new->type = DEFINED;
+	new->ptr.pDef = ptr;
+	new->next = NULL;
 
-	return newone;
+	return new;
 }
 
-RecordDef newoneAnonyRecord(TypeList typeList) {
-	RecordDef newone = (RecordDef) malloc(sizeof(struct RecordNodeRec));
-	newone.type = ANONYMOUS;
-	newone.ptr.pAnony = (void*) typeList;
-	newone.next = NULL; 
+RecordDef newAnonyRecord(TypeList typeList) {
+	RecordDef new = (RecordDef) malloc(sizeof(struct RecordNodeRec));
+	new->type = ANONYMOUS;
+	new->ptr.pAnony = (void*) typeList;
+	new->next = NULL; 
 
-	return newone;
+	return new;
 }
 
 /*build a simple type list*/
-SimpleTypeList newoneSimpleTypeList(char* name, ExpType type, int isVar) {
-	SimpleTypeList newone = (SimpleTypeList) malloc(sizeof(struct SimpleTypeListRec));
-	newone.name = name;
-	newone.type = type;
-	newone.isVar = isVar;
+SimpleTypeList newSimpleTypeList(char* name, ExpType type, int isVar) {
+	SimpleTypeList new = (SimpleTypeList) malloc(sizeof(struct SimpleTypeListRec));
+	new->name = name;
+	new->type = type;
+	new->isVar = isVar;
 	
-	return newone;
+	return new;
 }
 
 SimpleTypeList insertSimpleTypeList(SimpleTypeList simpleList, char* name, ExpType type, int isVar) {
-	while(simpleList.next != NULL)
-		simpleList = simpleList.next;
-	simpleList.next = newoneSimpleTypeList(name, type, isVar);
+	while(simpleList->next != NULL)
+		simpleList = simpleList->next;
+	simpleList->next = newSimpleTypeList(name, type, isVar);
 
-	return simpleList.next;
+	return simpleList->next;
 }
 
 /*insert line numbers and memory location into the process hash table*/
 int procListInsert(TreeNode* procHead) {
 
-	char* name = procHead.attr.name;
+	char* name = procHead->attr.name;
 	int nestLevel = currentNestLevel;
 	int paraNestLevel = nestLevel + 1;
 	int offset = 4;
@@ -169,44 +169,44 @@ int procListInsert(TreeNode* procHead) {
 	SimpleTypeList tmpList;
 	TreeNode* tmpNode;
 
-	if(procHead.child[0] == NULL)
+	if(procHead->child[0] == NULL)
 		paraList = NULL;
 	else {
-	   	if(procHead.child[0].kind.decl == DECL_VAR_PARA) {
-			paraList = newoneSimpleTypeList(procHead.child[0].child[0].attr.name, procHead.child[0].child[1].type, True);
+	   	if(procHead->child[0]->kind.decl == DECL_VAR_PARA) {
+			paraList = newSimpleTypeList(procHead->child[0]->child[0]->attr.name, procHead->child[0]->child[1]->type, True);
 		} else {
-			paraList = newoneSimpleTypeList(procHead.child[0].child[0].attr.name, procHead.child[0].child[1].type, False);
+			paraList = newSimpleTypeList(procHead->child[0]->child[0]->attr.name, procHead->child[0]->child[1]->type, False);
 		}
 
-		varListInsert(procHead.child[0].child[0].attr.name, procHead.child[0].child[1].type, False, paraNestLevel, NULL, procHead.lineno, 0, offset);
+		varListInsert(procHead->child[0]->child[0]->attr.name, procHead->child[0]->child[1]->type, False, paraNestLevel, NULL, procHead->lineno, 0, offset);
 		offset = offset + PARA_OFFSET_INC;
 
-		tmpNode = procHead.child[0].sibling;
+		tmpNode = procHead->child[0]->sibling;
 		tmpList = paraList;
 		while(tmpNode != NULL) {
-			if(tmpNode.kind.decl == DECL_VAR_PARA)
-				tmpList = insertSimpleTypeList(tmpList, tmpNode.child[0].attr.name, tmpNode.child[1].type, True);
+			if(tmpNode->kind.decl == DECL_VAR_PARA)
+				tmpList = insertSimpleTypeList(tmpList, tmpNode->child[0]->attr.name, tmpNode->child[1]->type, True);
 			else
-				tmpList = insertSimpleTypeList(tmpList, tmpNode.child[0].attr.name, tmpNode.child[1].type, False);
+				tmpList = insertSimpleTypeList(tmpList, tmpNode->child[0]->attr.name, tmpNode->child[1]->type, False);
 
-			varListInsert(tmpNode.child[0].attr.name, tmpNode.child[1].type, False, paraNestLevel, NULL, tmpNode.lineno, 0, offset);
+			varListInsert(tmpNode->child[0]->attr.name, tmpNode->child[1]->type, False, paraNestLevel, NULL, tmpNode->lineno, 0, offset);
 			offset = offset + PARA_OFFSET_INC;
 			
-			tmpNode = tmpNode.sibling;
+			tmpNode = tmpNode->sibling;
 		}
 	}
 	
 	int h = hash(name);
 	ProcList l = procHashTable[h];
 	ProcList tmp = l;
-	while((tmp != NULL) && (strcmp(name, tmp.name)))
-		tmp = tmp.next;
-	if(tmp == NULL || (strcmp(name, tmp.name)==0 && nestLevel>tmp.nestLevel)) { /*process with same nestlevel not yet in the table, insert to the list head*/
+	while((tmp != NULL) && (strcmp(name, tmp->name)))
+		tmp = tmp->next;
+	if(tmp == NULL || (strcmp(name, tmp->name)==0 && nestLevel>tmp->nestLevel)) { /*process with same nestlevel not yet in the table, insert to the list head*/
 		tmp = (ProcList) malloc(sizeof(struct ProcListRec));
-		tmp.name = name;
-		tmp.paraList = paraList;
-		tmp.nestLevel = nestLevel;
-		tmp.next = (l == NULL)? NULL:l;
+		tmp->name = name;
+		tmp->paraList = paraList;
+		tmp->nestLevel = nestLevel;
+		tmp->next = (l == NULL)? NULL:l;
 		procHashTable[h] = tmp;
 	}
 
@@ -216,61 +216,61 @@ int procListInsert(TreeNode* procHead) {
 /*insert line numbers and memory location into the function hash table*/
 int funcListInsert(TreeNode* funcHead) {
 
-	char* name = funcHead.attr.name;
+	char* name = funcHead->attr.name;
 	int nestLevel = currentNestLevel;
 	int paraNestLevel = nestLevel + 1;
 	int offset = 4;
 
-	ExpType retType = funcHead.child[1].type;
+	ExpType retType = funcHead->child[1]->type;
 	SimpleTypeList paraList;
 	SimpleTypeList tmpList;
 	TreeNode* tmpNode;
 
 
-	if(funcHead.child[0] == NULL)
+	if(funcHead->child[0] == NULL)
 		paraList = NULL;
 	else {
-	   	if(funcHead.child[0].kind.decl == DECL_VAR_PARA) {
+	   	if(funcHead->child[0]->kind.decl == DECL_VAR_PARA) {
 			//若传递参数为实参
-			paraList = newoneSimpleTypeList(funcHead.child[0].child[0].attr.name, funcHead.child[0].child[1].type, True);
+			paraList = newSimpleTypeList(funcHead->child[0]->child[0]->attr.name, funcHead->child[0]->child[1]->type, True);
 		} else {
 			//若传递参数为形参
-			paraList = newoneSimpleTypeList(funcHead.child[0].child[0].attr.name, funcHead.child[0].child[1].type, False);
+			paraList = newSimpleTypeList(funcHead->child[0]->child[0]->attr.name, funcHead->child[0]->child[1]->type, False);
 		}
-		varListInsert(funcHead.child[0].child[0].attr.name,funcHead.child[0].child[1].type, False, paraNestLevel, NULL, funcHead.lineno, 0, offset);
+		varListInsert(funcHead->child[0]->child[0]->attr.name,funcHead->child[0]->child[1]->type, False, paraNestLevel, NULL, funcHead->lineno, 0, offset);
 		offset = offset + PARA_OFFSET_INC;
 
-		tmpNode = funcHead.child[0].sibling;
+		tmpNode = funcHead->child[0]->sibling;
 		tmpList = paraList;
 		while(tmpNode != NULL) {
-			if(tmpNode.kind.decl == DECL_VAR_PARA)
-				tmpList = insertSimpleTypeList(tmpList, tmpNode.child[0].attr.name, tmpNode.child[1].type, True);
+			if(tmpNode->kind.decl == DECL_VAR_PARA)
+				tmpList = insertSimpleTypeList(tmpList, tmpNode->child[0]->attr.name, tmpNode->child[1]->type, True);
 			else
-				tmpList = insertSimpleTypeList(tmpList, tmpNode.child[0].attr.name, tmpNode.child[1].type, False);
+				tmpList = insertSimpleTypeList(tmpList, tmpNode->child[0]->attr.name, tmpNode->child[1]->type, False);
 
-			varListInsert(tmpNode.child[0].attr.name, tmpNode.child[1].type, False, paraNestLevel, NULL, tmpNode.lineno, 0, offset);
+			varListInsert(tmpNode->child[0]->attr.name, tmpNode->child[1]->type, False, paraNestLevel, NULL, tmpNode->lineno, 0, offset);
 			offset = offset + PARA_OFFSET_INC;
 			
-			tmpNode = tmpNode.sibling;
+			tmpNode = tmpNode->sibling;
 		}
 	}
 
 	//符号表插入返回值,与函数同名
-	varListInsert(funcHead.attr.name, retType, False, paraNestLevel, NULL, funcHead.lineno, 0, offset);
+	varListInsert(funcHead->attr.name, retType, False, paraNestLevel, NULL, funcHead->lineno, 0, offset);
 	offset = offset + PARA_OFFSET_INC;
 
 	int h = hash(name);
 	FuncList l = funcHashTable[h];
 	FuncList tmp = l;
-	while((tmp != NULL) && (strcmp(name, tmp.name)))
-		tmp = tmp.next;
-	if(tmp == NULL || (strcmp(name, tmp.name)==0 && nestLevel>tmp.nestLevel)) { /*process with same nestlevel not yet in the table, insert to the list head*/
+	while((tmp != NULL) && (strcmp(name, tmp->name)))
+		tmp = tmp->next;
+	if(tmp == NULL || (strcmp(name, tmp->name)==0 && nestLevel>tmp->nestLevel)) { /*process with same nestlevel not yet in the table, insert to the list head*/
 		tmp = (FuncList) malloc(sizeof(struct FuncListRec));
-		tmp.name = name;
-		tmp.paraList = paraList;
-		tmp.retType = retType;
-		tmp.nestLevel = nestLevel;
-		tmp.next = (l == NULL)? NULL:l;
+		tmp->name = name;
+		tmp->paraList = paraList;
+		tmp->retType = retType;
+		tmp->nestLevel = nestLevel;
+		tmp->next = (l == NULL)? NULL:l;
 		funcHashTable[h] = tmp;
 	}
 
@@ -282,15 +282,15 @@ int funcListInsert(TreeNode* funcHead) {
 void typeListAliaseInsert(char* name, char* aliase) {
 	int h = hash(name);
 	TypeList l = typeHashTable[h];
-	while((l != NULL) && (strcmp(name, l.name)))
-		l = l.next;
+	while((l != NULL) && (strcmp(name, l->name)))
+		l = l->next;
 	if(l != NULL) {
-		AliaseList t = l.aliaseSet;
-		while(t.next != NULL)
-			t = t.next;
-		t.next = (AliaseList) malloc(sizeof(struct AliaseListRec));
-		t.next.aliase = aliase;
-		t.next.next = NULL;
+		AliaseList t = l->aliaseSet;
+		while(t->next != NULL)
+			t = t->next;
+		t->next = (AliaseList) malloc(sizeof(struct AliaseListRec));
+		t->next->aliase = aliase;
+		t->next->next = NULL;
 	}
 }
 
@@ -298,17 +298,17 @@ void typeListInsert(char* name, ExpType type, int nestLevel, void* pAttr, int si
 	int h = hash(name);
 	TypeList l = typeHashTable[h];
 	TypeList tmp = l;
-	while((tmp != NULL) && (strcmp(name, tmp.name)))
-		tmp = tmp.next;
-	if(tmp == NULL || (strcmp(name, tmp.name)==0 && nestLevel>tmp.nestLevel)) { /*process with same nestlevel not yet in the table, insert to the list head*/
+	while((tmp != NULL) && (strcmp(name, tmp->name)))
+		tmp = tmp->next;
+	if(tmp == NULL || (strcmp(name, tmp->name)==0 && nestLevel>tmp->nestLevel)) { /*process with same nestlevel not yet in the table, insert to the list head*/
 		tmp = (TypeList) malloc(sizeof(struct TypeListRec));
-		tmp.name = name;
-		tmp.aliaseSet = NULL;
-		tmp.type = type;
-		tmp.nestLevel = nestLevel;
-		tmp.pAttr = pAttr;
-		tmp.size = size;
-		tmp.next = (l == NULL)? NULL:l;
+		tmp->name = name;
+		tmp->aliaseSet = NULL;
+		tmp->type = type;
+		tmp->nestLevel = nestLevel;
+		tmp->pAttr = pAttr;
+		tmp->size = size;
+		tmp->next = (l == NULL)? NULL:l;
 		typeHashTable[h] = tmp;
 	}
 
@@ -319,29 +319,29 @@ void varListInsert(char* name, ExpType type, int isConst, int nestLevel, void* p
 	int h = hash(name);
 	VariableList l = variableHashTable[h];
 	VariableList tmp = l;
-	while((tmp != NULL) && (strcmp(name, tmp.name)))
-			tmp = tmp.next;
-	if(tmp == NULL || (strcmp(name, tmp.name)==0 && nestLevel>tmp.nestLevel)) { /*process with same nestlevel not yet in the table, insert to the list head*/
+	while((tmp != NULL) && (strcmp(name, tmp->name)))
+			tmp = tmp->next;
+	if(tmp == NULL || (strcmp(name, tmp->name)==0 && nestLevel>tmp->nestLevel)) { /*process with same nestlevel not yet in the table, insert to the list head*/
 		tmp = (VariableList) malloc(sizeof(struct VariableListRec));
-		tmp.name = name;
-		tmp.type = type;
-		tmp.isConst = isConst; 
-		tmp.nestLevel = nestLevel;
-		tmp.pAttr = pAttr;
-		tmp.lines = (LineList) malloc(sizeof(struct LineListRec));
-		tmp.lines.lineno = lineno;
-		tmp.lines.next = NULL;
-		tmp.memloc.baseLoc = baseLoc;
-		tmp.memloc.offset = offset;
-		tmp.next = (l == NULL)? NULL:l;
+		tmp->name = name;
+		tmp->type = type;
+		tmp->isConst = isConst; 
+		tmp->nestLevel = nestLevel;
+		tmp->pAttr = pAttr;
+		tmp->lines = (LineList) malloc(sizeof(struct LineListRec));
+		tmp->lines->lineno = lineno;
+		tmp->lines->next = NULL;
+		tmp->memloc.baseLoc = baseLoc;
+		tmp->memloc.offset = offset;
+		tmp->next = (l == NULL)? NULL:l;
 		variableHashTable[h] = tmp;
 	} else { /*find the exact variable*/
-		LineList t = tmp.lines;
-		while(t.next != NULL)
-			t = t.next;
-		t.next = (LineList) malloc(sizeof(struct LineListRec));
-		t.next.lineno = lineno;
-		t.next.next = NULL;
+		LineList t = tmp->lines;
+		while(t->next != NULL)
+			t = t->next;
+		t->next = (LineList) malloc(sizeof(struct LineListRec));
+		t->next->lineno = lineno;
+		t->next->next = NULL;
 	}
 }
 
@@ -353,12 +353,12 @@ void varListInsert(char* name, ExpType type, int isConst, int nestLevel, void* p
 VariableList varListLookup(char* name) {
 	int h = hash(name);
 	VariableList l = variableHashTable[h];
-	while((l != NULL) && (strcmp(name, l.name)))
-		l = l.next;
+	while((l != NULL) && (strcmp(name, l->name)))
+		l = l->next;
 	if(l == NULL)
 		return NULL;
 	else {
-		l.memloc.baseLoc = currentNestLevel - l.nestLevel; 
+		l->memloc.baseLoc = currentNestLevel - l->nestLevel; 
 		return l;
 	}
 }
@@ -367,8 +367,8 @@ VariableList varListLookup(char* name) {
 FuncList funcListLookup(char* name) {
 	int h = hash(name);
 	FuncList l = funcHashTable[h];
-	while((l != NULL) && (strcmp(name, l.name)))
-		l = l.next;
+	while((l != NULL) && (strcmp(name, l->name)))
+		l = l->next;
 	if(l == NULL)
 		return NULL;
 	else  
@@ -379,8 +379,8 @@ FuncList funcListLookup(char* name) {
 ProcList procListLookup(char* name) {
 	int h = hash(name);
 	ProcList l = procHashTable[h];
-	while((l != NULL) && (strcmp(name, l.name)))
-		l = l.next;
+	while((l != NULL) && (strcmp(name, l->name)))
+		l = l->next;
 	if(l == NULL)
 		return NULL;
 	else
@@ -391,8 +391,8 @@ ProcList procListLookup(char* name) {
 TypeList typeListLookup(char* name) {
 	int h = hash(name);
 	TypeList l = typeHashTable[h];
-	while((l != NULL) && (strcmp(name, l.name)))
-		l = l.next;
+	while((l != NULL) && (strcmp(name, l->name)))
+		l = l->next;
 	if(l == NULL)
 		return NULL;
 	else
@@ -407,13 +407,13 @@ LookupRet arrayLookup(char* a, int i) {
 	ret.jumpLevel = ERROR_RETURN;
 	ret.type = EXPTYPE_VOID;
 	VariableList l = varListLookup(a);
-	if(l.type == EXPTYPE_ARRAY && l.pAttr != NULL) {
-		lower = ((ArrayDef)(l.pAttr)).subBound.LowerBound.i;
-		upper = ((ArrayDef)(l.pAttr)).subBound.UpperBound.i;
+	if(l->type == EXPTYPE_ARRAY && l->pAttr != NULL) {
+		lower = ((ArrayDef)(l->pAttr))->subBound->LowerBound.i;
+		upper = ((ArrayDef)(l->pAttr))->subBound->UpperBound.i;
 		if(i>=lower && i<=upper) {
-			ret.totalOff = l.memloc.offset+OFFSET_INC*(i-lower);
-			ret.jumpLevel = currentNestLevel - l.nestLevel;
-			ret.type = l.type;
+			ret.totalOff = l->memloc.offset+OFFSET_INC*(i-lower);
+			ret.jumpLevel = currentNestLevel - l->nestLevel;
+			ret.type = l->type;
 		} 
 	}
 	return ret;
@@ -428,20 +428,20 @@ LookupRet recordLookup(char* rec, char* a) {
 	ret.totalOff = ERROR_RETURN;
 	ret.jumpLevel = ERROR_RETURN;
 	ret.type = EXPTYPE_VOID;
-	if(l.type == EXPTYPE_RECORD && l.pAttr != NULL) {
-		if(((RecordDef)(l.pAttr)).type == ANONYMOUS) {
-			plist = ((RecordDef)(l.pAttr)).ptr.pAnony; 
+	if(l->type == EXPTYPE_RECORD && l->pAttr != NULL) {
+		if(((RecordDef)(l->pAttr))->type == ANONYMOUS) {
+			plist = ((RecordDef)(l->pAttr))->ptr.pAnony; 
 		} else {
-			plist = ((RecordDef)(l.pAttr)).ptr.pDef; 
+			plist = ((RecordDef)(l->pAttr))->ptr.pDef; 
 		}
-		while(plist != NULL && strcmp(plist.name, a)) {
+		while(plist != NULL && strcmp(plist->name, a)) {
 			size += 1;
-			plist = plist.next;
+			plist = plist->next;
 		}
 		if(plist != NULL) {
-			ret.totalOff = size*OFFSET_INC + l.memloc.offset;
-			ret.jumpLevel = currentNestLevel - l.nestLevel;
-			ret.type = plist.type;
+			ret.totalOff = size*OFFSET_INC + l->memloc.offset;
+			ret.jumpLevel = currentNestLevel - l->nestLevel;
+			ret.type = plist->type;
 		}
 	}
 	return ret;	
@@ -462,8 +462,8 @@ void initScope() {
 	}
 }
 
-/*enter newone function or process scope*/
-int enternewoneScope(TreeNode* t) {
+/*enter new function or process scope*/
+int enterNewScope(TreeNode* t) {
 	currentNestLevel += 1;
 	totalOffset[currentNestLevel] = buildSymtab(t);
 	return 	totalOffset[currentNestLevel];
@@ -482,12 +482,12 @@ int leaveScope() {
 		FuncList fl = funcHashTable[i];
 		ProcList pl = procHashTable[i];
 
-		while(vl != NULL && vl.nestLevel >= tmp) {
+		while(vl != NULL && vl->nestLevel >= tmp) {
 			ptr1 = (void*)vl;
-			vl = vl.next;
-			ptr2 = (void*)(((VariableList)ptr1).lines);
+			vl = vl->next;
+			ptr2 = (void*)(((VariableList)ptr1)->lines);
 			while((LineList)ptr2 != NULL) {
-				ptr3 = (void*)(((LineList)ptr2).next);
+				ptr3 = (void*)(((LineList)ptr2)->next);
 				free((LineList)ptr2);
 				ptr2 = ptr3;
 			}
@@ -495,12 +495,12 @@ int leaveScope() {
 		}
 		variableHashTable[i] = vl;
 
-		while(tl != NULL && tl.nestLevel >= tmp) {
+		while(tl != NULL && tl->nestLevel >= tmp) {
 			ptr1 = (void*)tl;
-			tl = tl.next;
-			ptr2 = (void*)(((TypeList)ptr1).aliaseSet);
+			tl = tl->next;
+			ptr2 = (void*)(((TypeList)ptr1)->aliaseSet);
 			while((AliaseList)ptr2 != NULL) {
-				ptr3 = (void*)(((AliaseList)ptr2).next);
+				ptr3 = (void*)(((AliaseList)ptr2)->next);
 				free((AliaseList)ptr2);
 				ptr2 = ptr3;
 			}
@@ -523,16 +523,16 @@ void printSymTab(FILE* listing) {
 		if(variableHashTable[i] != NULL) {
 			VariableList l = variableHashTable[i];
 			while(l != NULL) {
-				LineList t = l.lines;
-				fprintf(listing, "%-14s ", l.name);
-				fprintf(listing, "%-8d", l.nestLevel);
-				fprintf(listing, "%-8d ", l.memloc.offset);
+				LineList t = l->lines;
+				fprintf(listing, "%-14s ", l->name);
+				fprintf(listing, "%-8d", l->nestLevel);
+				fprintf(listing, "%-8d ", l->memloc.offset);
 				while(t != NULL) {
-					fprintf(listing, "%4d ", t.lineno);
-					t = t.next;
+					fprintf(listing, "%4d ", t->lineno);
+					t = t->next;
 				}
 				fprintf(listing, "\n");
-				l = l.next;
+				l = l->next;
 			}
 		}
 	}
@@ -543,16 +543,16 @@ void printSymTab(FILE* listing) {
 		if(funcHashTable[i] != NULL) {
 			FuncList l = funcHashTable[i];
 			while(l != NULL) {
-				SimpleTypeList t = l.paraList;
-				fprintf(listing, "%-14s ", l.name);
-				fprintf(listing, "%-8d", l.nestLevel);
-				fprintf(listing, "%-8d ", l.retType);
+				SimpleTypeList t = l->paraList;
+				fprintf(listing, "%-14s ", l->name);
+				fprintf(listing, "%-8d", l->nestLevel);
+				fprintf(listing, "%-8d ", l->retType);
 				while(t != NULL) {
-					fprintf(listing, "%-14s ", t.name);
-					t = t.next;
+					fprintf(listing, "%-14s ", t->name);
+					t = t->next;
 				}
 				fprintf(listing, "\n");
-				l = l.next;
+				l = l->next;
 			}
 		}
 	}	

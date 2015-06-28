@@ -19,5 +19,16 @@ public enum OpKind {
     GT,
     GE,
     EQUAL,
-    UNEQUAL;
+    UNEQUAL, 
+    NOT, 
+    OR, 
+    AND, 
+    CHR, 
+    ABS, 
+    ODD, 
+    ORD, 
+    SQRT, 
+    SUCC, 
+    PRED, 
+    SQR;
 }
