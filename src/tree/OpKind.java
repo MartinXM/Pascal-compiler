@@ -6,6 +6,9 @@ package tree;
 public enum OpKind {
     TO,
     DOWNTO,
+    READ,
+    WRITE,
+    WRITELN,
     PLUS,
     MINUS,
     MUL,

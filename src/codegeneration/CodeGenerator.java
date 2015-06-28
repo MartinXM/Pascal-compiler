@@ -113,12 +113,18 @@ public class CodeGenerator {
     }
 
     protected void generateCode(TreeNode node) {
+        generateCode(node, true);
+    }
+
+    protected void generateCode(TreeNode node, boolean travelSibling) {
         if (node == null) {
             warning(node.getLineNumber(), "Null node.");
             return;
         }
         generators.get(node.getKind().getClass()).get(node.getKind()).generateCode(node);
-        generateCode(node.getSibling());
+        if (travelSibling) {
+            generateCode(node.getSibling(), true);
+        }
     }
 
     public void error(int lineNumber, String message) {
