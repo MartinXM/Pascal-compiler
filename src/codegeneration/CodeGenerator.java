@@ -89,11 +89,19 @@ public class CodeGenerator {
     }
 
     protected void generateCode(TreeNode node) {
+        if (node == null) {
+            warning(node.getLineNumber(), "Null node.");
+            return;
+        }
         generators.get(node.getKind().getClass()).get(node.getKind()).generateCode(node);
     }
 
     public void error(int lineNumber, String message) {
         System.out.println("Code generation error(line " + lineNumber + "): " + message);
         System.exit(1);
+    }
+
+    public void warning(int lineNumber, String message) {
+        System.out.println("Code generation warning(line " + lineNumber + "): " + message);
     }
 }
