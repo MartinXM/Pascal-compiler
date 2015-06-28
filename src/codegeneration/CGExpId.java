@@ -1,5 +1,8 @@
 package codegeneration;
 
+import Symbol.LookupRet;
+import Symbol.VariableList;
+import Symbol.Symbol;
 import tree.ExpType;
 import tree.TreeNode;
 
@@ -15,21 +18,21 @@ public class CGExpId extends Generator {
     @Override
     void generateCode(TreeNode node) {
 
-//        int level;
-//        int offset;
-//        int lower;
-//        ExpType type;
-//        LookupRet recordInfo;
-//
-//        VariableList varlist = varListLookup((String)node.getAttribute());
-//        if (varlist == null) {
-//            codeGenerator.error(node.getLineNumber(), "Variavle " + (String)node.getAttribute() + " not exist.");
-//        }
-//
-//        type = varlist.type;
-//
-//        if (type == ExpType.ARRAY) {
-//
-//        }
+        int level;
+        int offset;
+        int lower;
+        ExpType type;
+        LookupRet recordInfo;
+
+        VariableList varlist = Symbol.varListLookup((String)node.getAttribute());
+        if (varlist == null) {
+            codeGenerator.error(node.getLineNumber(), "Variavle " + (String)node.getAttribute() + " not exist.");
+        }
+
+        type = varlist.type;
+
+        if (type == ExpType.ARRAY) {
+
+        }
     }
 }
