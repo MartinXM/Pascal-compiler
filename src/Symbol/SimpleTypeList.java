@@ -4,9 +4,9 @@ import tree.ExpType;
 import Symbol.SimpleTypeList;
 
 public class SimpleTypeList {
-	String name;
-	ExpType type;
-	boolean isVar;
-	SimpleTypeList next;
+	public String name;
+	public ExpType type;
+	public boolean isVar;
+	public SimpleTypeList next;
 }
 

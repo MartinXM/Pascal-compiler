@@ -3,7 +3,7 @@ package Symbol;
 import Symbol.AliaseList;
 
 public class AliaseList{
-	Object aliase;
-	AliaseList next;
+	public Object aliase;
+	public AliaseList next;
 
 }

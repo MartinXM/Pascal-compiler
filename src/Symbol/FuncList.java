@@ -4,9 +4,9 @@ import tree.ExpType;
 import Symbol.FuncList;
 
 public class FuncList {
-	String name;
-	SimpleTypeList paraList;
-	ExpType retType; /*record the return type*/
-	int nestLevel;
-	FuncList next;
+	public String name;
+	public SimpleTypeList paraList;
+	public ExpType retType; /*record the return type*/
+	public int nestLevel;
+	public FuncList next;
 }

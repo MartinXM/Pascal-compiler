@@ -3,6 +3,6 @@ package Symbol;
 import Symbol.EnumDef;
 
 public class EnumDef {
-	Object mark; /*point to a constant value*/
-	EnumDef next;		
+	public Object mark; /*point to a constant value*/
+	public EnumDef next;		
 };
