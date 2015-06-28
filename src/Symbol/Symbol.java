@@ -13,28 +13,28 @@ public class Symbol {
 	public final static int SIZE = 211;
 	public final static int OFFSET_INC = 4;
 	
-	static int currentNestLevel = 0;
-	static int base = 0;
-	static int offset = 0;
-	static boolean TraceAnalyze = true;
-	static boolean Error = false;
+	public static int currentNestLevel = 0;
+	public static int base = 0;
+	public static int offset = 0;
+	public static boolean TraceAnalyze = true;
+	public static boolean Error = false;
 	
-	private static VariableList [] variableHashTable = new VariableList[SIZE];
+	public static VariableList [] variableHashTable = new VariableList[SIZE];
 
 	/*the hash table of types*/
-	private static TypeList [] typeHashTable =new TypeList[SIZE];
+	public static TypeList [] typeHashTable =new TypeList[SIZE];
 
 	/*the hash table of function*/
-	private static FuncList [] funcHashTable = new FuncList[SIZE];
+	public static FuncList [] funcHashTable = new FuncList[SIZE];
 
 	/*the hash table of procedure*/
-	private static ProcList [] procHashTable = new ProcList[SIZE];
+	public static ProcList [] procHashTable = new ProcList[SIZE];
 
 	/*record the total offset of each scope*/
-	private static int [] totalOffset = new int[SIZE];
+	public static int [] totalOffset = new int[SIZE];
 	
 	
-	static int hash(String key){
+	public static int hash(String key){
 		int temp = 0;
 		int i = 0;
 		while(i < key.length()) {

@@ -3,7 +3,7 @@ import tree.ExpType;
 
 
 	public class LookupRet {
-		int totalOff;
-		int jumpLevel;
-		ExpType type;
+		public int totalOff;
+		public int jumpLevel;
+		public ExpType type;
 	}

@@ -3,7 +3,7 @@ import tree.ExpType;
 
 
 	public class MemLoc {
-		int baseLoc;
-		int offset;
-		ExpType type;
+		public int baseLoc;
+		public int offset;
+		public ExpType type;
 	} 	

@@ -1,6 +1,6 @@
 package Symbol;
 
 public enum RecordType{
-	ANONYMOUS,
-	DEFINED
+	 ANONYMOUS,
+	 DEFINED
 };
