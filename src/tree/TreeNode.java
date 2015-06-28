@@ -25,6 +25,51 @@ public class TreeNode {
     public TreeNode() {
     }
 
+    public TreeNode(Object kind, int lineNumber) {
+        this.kind = kind;
+        this.lineNumber = lineNumber;
+        if (kind instanceof ExpKind) {
+            this.type = ExpType.VOID;
+        }
+    }
+
+
+    /**
+     * NewOpExpNode.
+     * @param first
+     * @param second
+     * @param op
+     * @param lineNumber
+     */
+    public TreeNode(TreeNode first, TreeNode second, OpKind op, int lineNumber) {
+        this.kind = ExpKind.OP;
+        this.attribute = op;
+        this.lineNumber = lineNumber;
+        this.addChild(first);
+        this.addChild(second);
+    }
+
+    public static TreeNode newOpExpNode(TreeNode first, TreeNode second, OpKind op, int lineNumber) {
+        return new TreeNode(first, second, op, lineNumber);
+    }
+
+    /**
+     * NewFuncSysExpNode
+     * @param op
+     * @param child
+     * @param lineNumber
+     */
+    public TreeNode(OpKind op, TreeNode child, int lineNumber) {
+        this.kind = ExpKind.FUNC_SYS;
+        this.addChild(child);
+        this.attribute = op;
+        this.lineNumber = lineNumber;
+    }
+
+    public static TreeNode newFuncSysExpNode(OpKind op, TreeNode child, int lineNumber) {
+        return new TreeNode(op, child, lineNumber);
+    }
+
     public List<TreeNode> getChildren() {
         return children;
     }
