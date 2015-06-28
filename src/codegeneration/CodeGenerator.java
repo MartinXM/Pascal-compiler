@@ -25,16 +25,30 @@ public class CodeGenerator {
     private CodeGenerator() {
 
         Map<Object, Generator> stmtGenerators = new HashMap<>();
+        stmtGenerators.put(StmtKind.ASSIGN, new CGStmtAssign(this));
         stmtGenerators.put(StmtKind.IF, new CGStmtIf(this));
+        stmtGenerators.put(StmtKind.FOR, new CGStmtFor(this));
+        stmtGenerators.put(StmtKind.WHILE, new CGStmtWhile(this));
+        stmtGenerators.put(StmtKind.REPEAT, new CGStmtRepeat(this));
+        stmtGenerators.put(StmtKind.CASE, new CGStmtCase(this));
+        stmtGenerators.put(StmtKind.GOTO, new CGStmtGoto(this));
+        stmtGenerators.put(StmtKind.LABEL, new CGStmtLabel(this));
+        stmtGenerators.put(StmtKind.PROC_ID, new CGStmtProcId(this));
+        stmtGenerators.put(StmtKind.PROC_SYS, new CGStmtProcSys(this));
 
         Map<Object, Generator> expGenerators = new HashMap<>();
         expGenerators.put(ExpKind.ID, new CGExpId(this));
-        expGenerators.put(ExpKind.CONST, new CGExpConst(this));
         expGenerators.put(ExpKind.OP, new CGExpOp(this));
+        expGenerators.put(ExpKind.CONST, new CGExpConst(this));
+        expGenerators.put(ExpKind.CASE, new CGExpCase(this));
+        expGenerators.put(ExpKind.FUNC_ID, new CGExpFuncId(this));
 
         Map<Object, Generator> declGenerators = new HashMap<>();
+        declGenerators.put(DeclKind.ROUTINEHEAD, new CGDeclRoutineHead(this));
+        declGenerators.put(DeclKind.FUNCTION, new CGDeclFunction(this));
+        declGenerators.put(DeclKind.PROCEDURE, new CGDeclProcedure(this));
 
-        Map<Object, Generator> typeGenerators = new HashMap<>();
+        Map<Object, Generator> typeGenerators = new HashMap<>();// typeGenerators is empty
 
         generators.put(StmtKind.class, stmtGenerators);
         generators.put(ExpKind.class, expGenerators);

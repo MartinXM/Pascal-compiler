@@ -7,9 +7,9 @@ import tree.TreeNode;
 /**
  * Created by kehanyang on 15/6/28.
  */
-public class CGStmtProc extends CGStmtFuncAndProc {
+public class CGStmtProcId extends CGStmtFuncAndProc {
 
-    CGStmtProc(CodeGenerator codeGenerator) {
+    CGStmtProcId(CodeGenerator codeGenerator) {
         super(codeGenerator);
     }
 
