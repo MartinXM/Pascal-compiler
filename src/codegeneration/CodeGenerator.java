@@ -62,18 +62,42 @@ public class CodeGenerator {
     }
 
     public void generate(TreeNode node, String fileName) {
-        beforeGC();
+        beforeGC(node);
         generateCode(node);
         afterGC();
         writeFinalFile(fileName);
     }
 
-    private void beforeGC() {
+    private void beforeGC(TreeNode node) {
+        writeDataLine(".386");
+        writeDataLine(".model flat,stdcall");
+        writeDataLine("option casemap:none");
+        writeDataLine("include masm32\\include\\msvcrt.inc");
+        writeDataLine("includelib msvcrt.lib");
 
+        writeDataLine("printf  proto C:dword,:dword");
+
+        writeDataLine(".data");
+        writeDataLine("lb_write_int db '%d',0");
+        writeDataLine("lb_writeln_int db '%d',0ah,0dh,0");
+        writeDataLine("lb_write_real db '%lf',0");
+        writeDataLine("lb_writeln_real db '%lf',0ah,0dh,0");
+        writeDataLine("lb_tmp db 0, 0, 0, 0, 0, 0, 0, 0");
+        writeDataLine("lb_read_int db '%d',0");
+        writeDataLine("lb_read_real db '%f',0");
+
+        writeCodeLine(".code");
+
+//        initScope();
+        node.setAttribute("main");
     }
 
     private void afterGC() {
-
+//        int paraSize = leaveScope();
+//        writeCodeLine("add esp, " + paraSize);
+        writeCodeLine("ret");
+        writeCodeLine("main ENDP");
+        writeCodeLine("END main");
     }
 
     private void writeFinalFile(String fileName) {
@@ -94,6 +118,7 @@ public class CodeGenerator {
             return;
         }
         generators.get(node.getKind().getClass()).get(node.getKind()).generateCode(node);
+        generateCode(node.getSibling());
     }
 
     public void error(int lineNumber, String message) {
