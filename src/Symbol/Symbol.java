@@ -34,23 +34,6 @@ public class Symbol {
 	private static int [] totalOffset = new int[SIZE];
 	
 	
-	public class Bound{
-		
-	}
-	
-	public class Bound_i extends Bound{
-		int i;
-	}
-	
-	public class Bound_c extends Bound{
-		char c;
-	}
-	
-	public class Bound_m extends Bound{
-		String m;
-	}
-	
-	
 	static int hash(String key){
 		int temp = 0;
 		int i = 0;
@@ -68,14 +51,14 @@ public class Symbol {
 		SubBoundDef newone = new SubBoundDef();
 		newone.boundType = type;
 		if(type == ExpType.INT) {
-			newone.LowerBound.i = *(int*)lower;
-			newone.UpperBound.i = *(int*)upper;	
+			newone.LowerBound = (Integer)lower;
+			newone.UpperBound = (Integer)upper;	
 		} else if(type == ExpType.CHAR) {
-			newone.LowerBound.c = *(char*)lower;
-			newone.UpperBound.c = *(char*)upper;
+			newone.LowerBound = (Byte)lower;
+			newone.UpperBound = (Byte) upper;
 		} else if(type == ExpType.SIMPLE_ENUM) {
-			newone.LowerBound.m = (char*)lower;
-			newone.UpperBound.m = (char*)upper;
+			newone.LowerBound = (String)lower;
+			newone.UpperBound = (String)upper;
 		}
 
 		return newone;
@@ -401,14 +384,14 @@ public class Symbol {
 	//bound i
 	public static LookupRet arrayLookup(String a, int i){
 		int lower, upper, size;
-		LookupRet ret;
+		LookupRet ret = null;
 		ret.totalOff = ERROR_RETURN;
 		ret.jumpLevel = ERROR_RETURN;
 		ret.type = ExpType.VOID;
 		VariableList l = varListLookup(a);
 		if(l.type == ExpType.ARRAY && l.pAttr != null) {
-			lower = ((ArrayDef)(l.pAttr)).subBound.LowerBound.i;
-			upper = ((ArrayDef)(l.pAttr)).subBound.UpperBound.i;
+			lower = (int) ((ArrayDef)(l.pAttr)).subBound.LowerBound;
+			upper = (int) ((ArrayDef)(l.pAttr)).subBound.UpperBound;
 			if(i>=lower && i<=upper) {
 				ret.totalOff = l.memloc.offset+OFFSET_INC*(i-lower);
 				ret.jumpLevel = currentNestLevel - l.nestLevel;
@@ -423,15 +406,15 @@ public class Symbol {
 		VariableList l = varListLookup(rec);
 		TypeList plist;
 		int size = 0;
-		LookupRet ret;
+		LookupRet ret = null;
 		ret.totalOff = ERROR_RETURN;
 		ret.jumpLevel = ERROR_RETURN;
 		ret.type = ExpType.VOID;
 		if(l.type == ExpType.RECORD && l.pAttr != null) {
-			if(((RecordDef)(l.pAttr)).type == ANONYMOUS) {
-				plist = ((RecordDef)(l.pAttr)).ptr.pAnony; 
+			if(((RecordNode)(l.pAttr)).type == RecordType.ANONYMOUS) {
+				plist = ((RecordNode)(l.pAttr)).ptr; 
 			} else {
-				plist = ((RecordDef)(l.pAttr)).ptr.pDef; 
+				plist = ((RecordNode)(l.pAttr)).ptr; 
 			}
 			while(plist != null && plist.name.compareTo(a)!=0) {
 				size += 1;
