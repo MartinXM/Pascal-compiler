@@ -25,6 +25,7 @@ public class CodeGenerator {
     private CodeGenerator() {
 
         Map<Object, Generator> stmtGenerators = new HashMap<>();
+        stmtGenerators.put(StmtKind.IF, new CGStmtIf(this));
 
         Map<Object, Generator> expGenerators = new HashMap<>();
         expGenerators.put(ExpKind.ID, new CGExpId(this));
@@ -61,18 +62,42 @@ public class CodeGenerator {
     }
 
     public void generate(TreeNode node, String fileName) {
-        beforeGC();
+        beforeGC(node);
         generateCode(node);
         afterGC();
         writeFinalFile(fileName);
     }
 
-    private void beforeGC() {
+    private void beforeGC(TreeNode node) {
+        writeDataLine(".386");
+        writeDataLine(".model flat,stdcall");
+        writeDataLine("option casemap:none");
+        writeDataLine("include masm32\\include\\msvcrt.inc");
+        writeDataLine("includelib msvcrt.lib");
 
+        writeDataLine("printf  proto C:dword,:dword");
+
+        writeDataLine(".data");
+        writeDataLine("lb_write_int db '%d',0");
+        writeDataLine("lb_writeln_int db '%d',0ah,0dh,0");
+        writeDataLine("lb_write_real db '%lf',0");
+        writeDataLine("lb_writeln_real db '%lf',0ah,0dh,0");
+        writeDataLine("lb_tmp db 0, 0, 0, 0, 0, 0, 0, 0");
+        writeDataLine("lb_read_int db '%d',0");
+        writeDataLine("lb_read_real db '%f',0");
+
+        writeCodeLine(".code");
+
+//        initScope();
+        node.setAttribute("main");
     }
 
     private void afterGC() {
-
+//        int paraSize = leaveScope();
+//        writeCodeLine("add esp, " + paraSize);
+        writeCodeLine("ret");
+        writeCodeLine("main ENDP");
+        writeCodeLine("END main");
     }
 
     private void writeFinalFile(String fileName) {
@@ -88,11 +113,26 @@ public class CodeGenerator {
     }
 
     protected void generateCode(TreeNode node) {
+        generateCode(node, true);
+    }
+
+    protected void generateCode(TreeNode node, boolean travelSibling) {
+        if (node == null) {
+            warning(node.getLineNumber(), "Null node.");
+            return;
+        }
         generators.get(node.getKind().getClass()).get(node.getKind()).generateCode(node);
+        if (travelSibling) {
+            generateCode(node.getSibling(), true);
+        }
     }
 
     public void error(int lineNumber, String message) {
         System.out.println("Code generation error(line " + lineNumber + "): " + message);
         System.exit(1);
+    }
+
+    public void warning(int lineNumber, String message) {
+        System.out.println("Code generation warning(line " + lineNumber + "): " + message);
     }
 }
