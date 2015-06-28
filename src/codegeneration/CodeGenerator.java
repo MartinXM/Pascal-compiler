@@ -25,6 +25,7 @@ public class CodeGenerator {
     private CodeGenerator() {
 
         Map<Object, Generator> stmtGenerators = new HashMap<>();
+        stmtGenerators.put(StmtKind.IF, new CGStmtIf(this));
 
         Map<Object, Generator> expGenerators = new HashMap<>();
         expGenerators.put(ExpKind.ID, new CGExpId(this));
