@@ -1,6 +1,6 @@
 package codegeneration;
 
-import symbol.Symbol;
+import symboltable.SymbolTable;
 import tree.TreeNode;
 
 /**
@@ -17,12 +17,12 @@ public class CGDeclFunction extends Generator {
 
         TreeNode child1 = node.getChildren().get(0);
         TreeNode child2 = node.getChildren().get(1);
-        Symbol.funcListInsert(child1);
+        SymbolTable.addProcOrFunc(child1);
 
         child2.setAttribute(child1.getAttribute());
         codeGenerator.generateCode(child2);
 
-        int sizeParam = Symbol.leaveScope();
+        int sizeParam = SymbolTable.leaveScope();
         codeGenerator.writeCodeLine("add esp, " + sizeParam);
         codeGenerator.writeCodeLine("ret");
     }

@@ -1,7 +1,7 @@
 package codegeneration;
 
-import symbol.FuncList;
-import symbol.Symbol;
+import symboltable.FuncDef;
+import symboltable.SymbolTable;
 import tree.TreeNode;
 
 /**
@@ -15,7 +15,7 @@ public class CGExpFuncId extends CGStmtFuncAndProc {
 
     @Override
     void generateCode(TreeNode node) {
-        FuncList judgeVar = Symbol.funcListLookup((String)node.getAttribute());
+        FuncDef judgeVar = SymbolTable.lookupFunc((String) node.getAttribute());
 
         codeGenerator.writeCodeLine("push eax");  // push return value
 

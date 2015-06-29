@@ -1,7 +1,7 @@
 package codegeneration;
 
-import symbol.ProcList;
-import symbol.Symbol;
+import symboltable.ProcDef;
+import symboltable.SymbolTable;
 import tree.TreeNode;
 
 /**
@@ -16,7 +16,7 @@ public class CGStmtProcId extends CGStmtFuncAndProc {
     @Override
     void generateCode(TreeNode node) {
 
-        ProcList judgeVar = Symbol.procListLookup((String) node.getAttribute());
+        ProcDef judgeVar = SymbolTable.lookupProc((String) node.getAttribute());
 
         CGPushParam(node.getChildren().get(0));
 

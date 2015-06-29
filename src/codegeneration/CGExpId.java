@@ -1,8 +1,13 @@
 package codegeneration;
 
-import symbol.*;
+import symboltable.ArrayDef;
+import symboltable.LookupRet;
+import symboltable.SymbolTable;
+import symboltable.VariableDef;
 import tree.ExpType;
 import tree.TreeNode;
+
+import java.util.LinkedList;
 
 /**
  * Created by kehanyang on 15/6/28.
@@ -22,7 +27,7 @@ public class CGExpId extends Generator {
         ExpType type;
         LookupRet recordInfo = null;
 
-        VariableList varInfo = Symbol.varListLookup((String)node.getAttribute());
+        VariableDef varInfo = SymbolTable.lookupVar((String) node.getAttribute());
         if (varInfo == null) {
             codeGenerator.error(node.getLineNumber(), "Variavle " + node.getAttribute() + " not exist.");
         }
@@ -40,7 +45,7 @@ public class CGExpId extends Generator {
             offset = varInfo.memloc.offset;
 
         } else if (type == ExpType.RECORD) {
-            recordInfo = Symbol.recordLookup((String)node.getAttribute(), (String)(node.getChildren().get(0).getAttribute()));
+            recordInfo = SymbolTable.lookupRecord((String)node.getAttribute(), (String)(node.getChildren().get(0).getAttribute()));
             level = recordInfo.jumpLevel;
             offset = recordInfo.totalOff;
         } else {

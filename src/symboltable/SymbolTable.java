@@ -39,7 +39,7 @@ public class SymbolTable {
         int paraNestLevel = nestLevel + 1;
         int offset = 4;
 
-        List<SimpleType> paraList = new LinkedList<>();
+        LinkedList<SimpleType> paraList = new LinkedList<>();
         TreeNode paraDeclListNode = headNode.getChildren().get(0);
 
         while (paraDeclListNode != null) {

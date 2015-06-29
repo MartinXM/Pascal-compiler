@@ -1,7 +1,7 @@
 package codegeneration;
 
+import symboltable.SymbolTable;
 import tree.*;
-import symbol.Symbol;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -102,13 +102,13 @@ public class CodeGenerator {
         writeDataLine("lb_read_real db '%f',0");
 
         writeCodeLine(".code");
-        Symbol.initScope();
+        SymbolTable.initScope();
         node.setAttribute("main");
         node.printTree(node);
     }
 
     private void afterGC() {
-        int paraSize = Symbol.leaveScope();
+        int paraSize = SymbolTable.leaveScope();
         writeCodeLine("add esp, " + paraSize);
         writeCodeLine("ret");
         writeCodeLine("main ENDP");

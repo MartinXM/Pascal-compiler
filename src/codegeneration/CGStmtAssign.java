@@ -1,7 +1,7 @@
 package codegeneration;
 
-import symbol.VariableList;
-import symbol.Symbol;
+import symboltable.SymbolTable;
+import symboltable.VariableDef;
 import tree.TreeNode;
 
 /**
@@ -17,7 +17,7 @@ public class CGStmtAssign extends Generator {
     void generateCode(TreeNode node) {
         codeGenerator.generateCode(node.getChildren().get(1)); // 计算表达式右边的值
         codeGenerator.writeCodeLine("push eax");
-        VariableList varInfo = Symbol.varListLookup((String)node.getChildren().get(0).getAttribute());
+        VariableDef varInfo = SymbolTable.lookupVar((String) node.getChildren().get(0).getAttribute());
         if (varInfo == null) {
             codeGenerator.error(node.getLineNumber(), "undefined variable: " + node.getChildren().get(0).getAttribute());
         }

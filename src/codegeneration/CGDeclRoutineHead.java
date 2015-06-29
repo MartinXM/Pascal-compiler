@@ -1,6 +1,6 @@
 package codegeneration;
 
-import symbol.Symbol;
+import symboltable.SymbolTable;
 import tree.TreeNode;
 
 /**
@@ -14,7 +14,7 @@ public class CGDeclRoutineHead extends Generator {
 
     @Override
     void generateCode(TreeNode node) {
-        int sizeParam = Symbol.enterNewScope(node);
+        int sizeParam = SymbolTable.enterNewScope(node);
 
         if (node.getChildren().get(3) != null)
             codeGenerator.generateCode(node.getChildren().get(3));
