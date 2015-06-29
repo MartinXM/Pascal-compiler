@@ -132,9 +132,6 @@ public class CodeGenerator {
     }
 
     protected void generateCode(TreeNode node, boolean travelSibling) {
-//        if (node == null) {
-//            error(0, "Null node.");
-//        }
         generators.get(node.getKind().getClass()).get(node.getKind()).generateCode(node);
         if (travelSibling) {
             if (node.getSibling() != null) {
@@ -144,19 +141,21 @@ public class CodeGenerator {
     }
 
     public void error(int lineNumber, String message) {
+        lineNumber++;   // 语法树中的lineNumber是从0开始计数
         if (lineNumber > 0) {
-            System.out.println("Code generation error(line " + lineNumber + "): " + message);
+            System.err.println("Code generation error(line " + lineNumber + "): " + message);
         }  else {
-            System.out.println("Code generation error: " + message);
+            System.err.println("Code generation error: " + message);
         }
         System.exit(1);
     }
 
     public void warning(int lineNumber, String message) {
+        lineNumber++;   // 语法树中的lineNumber是从0开始计数
         if (lineNumber > 0) {
-            System.out.println("Code generation warning(line " + lineNumber + "): " + message);
+            System.err.println("Code generation warning(line " + lineNumber + "): " + message);
         } else {
-            System.out.println("Code generation warning: " + message);
+            System.err.println("Code generation warning: " + message);
         }
     }
 }

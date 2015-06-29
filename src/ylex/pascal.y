@@ -181,7 +181,6 @@ const_expr          :    ID TOKEN_EQUAL const_value TOKEN_SEMI
                         {
                             $$=new TreeNode(DeclKind.CONST,yyline);
                             $$.setAttribute($1.getAttribute());
-                            //freeNode($1);
                             $$.addChild($3);
                             $$.setType($3.getType());
                         }

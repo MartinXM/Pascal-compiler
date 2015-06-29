@@ -18,6 +18,9 @@ public class CGStmtAssign extends Generator {
         codeGenerator.generateCode(node.getChildren().get(1)); // 计算表达式右边的值
         codeGenerator.writeCodeLine("push eax");
         VariableList varInfo = Symbol.varListLookup((String)node.getChildren().get(0).getAttribute());
+        if (varInfo == null) {
+            codeGenerator.error(node.getLineNumber(), "undefined variable: " + node.getChildren().get(0).getAttribute());
+        }
         if (varInfo.isConst){
             codeGenerator.error(node.getLineNumber(), "Attempt to assign a const variable.");
         }

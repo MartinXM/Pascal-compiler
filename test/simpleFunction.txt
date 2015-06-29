@@ -3,12 +3,20 @@ var
 i,j:integer;
 function ff(u:integer):integer;
 var x:integer;
+ y:integer;
+ x:integer;
 begin
   x:=2;
   ff:=x+u;
 end;
+function pp(u:integer):integer;
+var x:integer;
+begin
+  x:=3;
+  pp:=x+u+1;
+end;
 
 begin
-i:=ff(3);
+i:=pp(3);
 write(i);
 end.

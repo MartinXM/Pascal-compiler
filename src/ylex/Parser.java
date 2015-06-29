@@ -766,9 +766,9 @@ final static String yyrule[] = {
 //      if ( args.length > 0 ) {
             // parse a file
         System.out.println("Input file path:");
-        Scanner in = new Scanner(System.in);
-        String filePath = in.nextLine();
-        yyparser = new Parser(new FileReader(filePath));
+//        Scanner in = new Scanner(System.in);
+//        String filePath = in.nextLine();
+        yyparser = new Parser(new FileReader("/Users/kehanyang/Documents/Documents/Courses/Computer Courses/Compiler Design/project/Pascal-compiler/test/simpleFunction.txt"));
 //      }
 //      else {
 //          // interactive mode
@@ -1144,7 +1144,6 @@ case 28:
 {
                             yyval.node=new TreeNode(DeclKind.CONST,yyline);
                             yyval.node.setAttribute(val_peek(3).node.getAttribute());
-                            /*freeNode($1);*/
                             yyval.node.addChild(val_peek(1).node);
                             yyval.node.setType(val_peek(1).node.getType());
                         }
