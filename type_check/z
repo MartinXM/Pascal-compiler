@@ -1,0 +1,3 @@
+nasm -f elf out.asm
+gcc -o out out.o
+./out
