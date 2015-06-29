@@ -1,7 +1,7 @@
 package codegeneration;
 
-import Symbol.ProcList;
-import Symbol.Symbol;
+import symbol.ProcList;
+import symbol.Symbol;
 import tree.TreeNode;
 
 /**

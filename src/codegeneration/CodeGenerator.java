@@ -1,7 +1,7 @@
 package codegeneration;
 
 import tree.*;
-import Symbol.Symbol;
+import symbol.Symbol;
 
 import java.io.BufferedWriter;
 import java.io.File;

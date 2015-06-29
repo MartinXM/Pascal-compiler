@@ -1,6 +1,6 @@
 package codegeneration;
 
-import Symbol.SimpleTypeList;
+import symbol.SimpleTypeList;
 import tree.TreeNode;
 
 /**

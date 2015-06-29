@@ -1,7 +1,7 @@
 package codegeneration;
 
-import Symbol.FuncList;
-import Symbol.Symbol;
+import symbol.FuncList;
+import symbol.Symbol;
 import tree.TreeNode;
 
 /**

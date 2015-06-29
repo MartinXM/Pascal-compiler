@@ -1,6 +1,6 @@
 package codegeneration;
 
-import Symbol.Symbol;
+import symbol.Symbol;
 import tree.TreeNode;
 
 /**
