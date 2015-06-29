@@ -6,8 +6,8 @@ import tree.TreeNode;
 import tree.TypeKind;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -193,13 +193,14 @@ public class SymbolTable {
         int retValue = totalOffset[currentNestLevel];
         currentNestLevel--;
 
-        for (HashMap.Entry<String, LinkedList<VariableDef> > entry : variableDefHashMap.entrySet()) {
+        for (Iterator<Map.Entry<String, LinkedList<VariableDef> > >  it = variableDefHashMap.entrySet().iterator(); it.hasNext(); ) {
+            Map.Entry<String, LinkedList<VariableDef> > entry = it.next();
             LinkedList<VariableDef> variableDefs = entry.getValue();
             while (variableDefs.size() != 0 && variableDefs.getFirst().nestLevel >= currentNestLevel) {
                 variableDefs.removeFirst();
             }
             if (variableDefs.size() == 0) {
-                variableDefHashMap.remove(entry.getKey());
+                it.remove();
             }
         }
 

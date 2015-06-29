@@ -4,7 +4,6 @@ i,j:integer;
 function ff(u:integer):integer;
 var x:integer;
  y:integer;
- x:integer;
 begin
   x:=2;
   ff:=x+u;
