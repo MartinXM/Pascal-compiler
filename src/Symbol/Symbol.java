@@ -128,7 +128,7 @@ public class Symbol {
 	public static RecordNode newAnonyRecord(TypeList typeList){
 		RecordNode newone = new RecordNode();
 		newone.type = RecordType.ANONYMOUS;
-		newone.ptr = typeList; //转化成Object
+		newone.ptr = typeList; //杞寲鎴怬bject
 		newone.next = null; 
 
 		return newone;
@@ -225,10 +225,10 @@ public class Symbol {
 			paraList = null;
 		else {
 		   	if(funcHead.getChildren().get(0).getKind() == DeclKind.VAR_PARA) {
-				//若传递参数为实参
+				//鑻ヤ紶閫掑弬鏁颁负瀹炲弬
 				paraList = newSimpleTypeList((String)funcHead.getChildren().get(0).getChildren().get(0).getAttribute(), funcHead.getChildren().get(0).getChildren().get(1).getType(), true);
 			} else {
-				//若传递参数为形参
+				//鑻ヤ紶閫掑弬鏁颁负褰㈠弬
 				paraList = newSimpleTypeList((String)funcHead.getChildren().get(0).getChildren().get(0).getAttribute(), funcHead.getChildren().get(0).getChildren().get(1).getType(), false);
 			}
 			varListInsert((String)funcHead.getChildren().get(0).getChildren().get(0).getAttribute(),funcHead.getChildren().get(0).getChildren().get(1).getType(), false, paraNestLevel, null, funcHead.getLineNumber(), 0, offset);
@@ -249,7 +249,7 @@ public class Symbol {
 			}
 		}
 
-		//符号表插入返回值,与函数同名
+		//绗﹀彿琛ㄦ彃鍏ヨ繑鍥炲��,涓庡嚱鏁板悓鍚�
 		varListInsert((String)funcHead.getAttribute(), retType, false, paraNestLevel, null, funcHead.getLineNumber(), 0, offset);
 		offset = offset + PARA_OFFSET_INC;
 

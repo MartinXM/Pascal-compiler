@@ -50,7 +50,7 @@ routine_part        :
                         {   TreeNode t=$1;
                             if(t!=null){
                                 while(t.getSibling()!=null)
-                                  t.setSibling(t.getSibling());
+                                  t=t.getSibling();
                                 t.setSibling($2);
                                 $$=$1;
                             }
@@ -61,7 +61,7 @@ routine_part        :
                         {   TreeNode t=$1;
                             if(t!=null){
                                 while(t.getSibling()!=null)
-                                  t.setSibling(t.getSibling());
+                                  t=t.getSibling();
                                 t.setSibling($2);
                                 $$=$1;
                             }
@@ -95,7 +95,7 @@ para_decl_list      :   para_decl_list  TOKEN_SEMI  para_type_list
                         {   TreeNode t=(TreeNode)$1;
                             if(t!=null){
                                 while(t.getSibling()!=null)
-                                  t.setSibling(t.getSibling());
+                                  t=t.getSibling();
                                 t.setSibling((TreeNode)$3);
                                 $$=$1;
                             }
@@ -141,7 +141,7 @@ var_decl_list       :   var_decl_list var_decl
                         {   TreeNode t = (TreeNode)$1;
                             if(t!=null){
                                 while(t.getSibling()!=null)
-                                  t.setSibling(t.getSibling());
+                                  t=t.getSibling();
                                 t.setSibling((TreeNode)$2);
                                 $$=$1;
                             }
@@ -166,7 +166,7 @@ const_expr_list     :   const_expr_list const_expr
                             TreeNode t = (TreeNode)$1;
                             if(t!=null){
                                 while(t.getSibling()!=null)
-                                  t.setSibling(t.getSibling());
+                                  t=t.getSibling();
                                 t.setSibling((TreeNode)$2);
                                 $$=$1;
                             }
@@ -239,7 +239,7 @@ type_decl_list      :   type_decl_list  type_definition
                             TreeNode t=$1;
                             if(t!=null){
                                 while(t.getSibling()!=null)
-                                  t.setSibling(t.getSibling());
+                                  t=t.getSibling();
                                 t.setSibling($2);
                                 $$=$1;
                             }
@@ -267,7 +267,7 @@ field_decl_list     :   field_decl_list field_decl
                             TreeNode t=$1;
                             if(t!=null){
                                 while(t.getSibling()!=null)
-                                  t.setSibling(t.getSibling());
+                                  t=t.getSibling();
                                 t.setSibling($2);
                                 $$=$1;
                             }
@@ -353,7 +353,7 @@ name_list           :   name_list TOKEN_COMMA ID
                             TreeNode t=$1;
                             if(t!=null){
                                 while(t.getSibling()!=null)
-                                  t.setSibling(t.getSibling());
+                                  t=t.getSibling();
                                 t.setSibling($3);
                                 $$=$1;
                             }
@@ -375,7 +375,7 @@ stmt_list           :
                             TreeNode t=$1;
                             if(t!=null){
                                 while(t.getSibling()!=null)
-                                  t.setSibling(t.getSibling());
+                                  t=t.getSibling();
                                 t.setSibling($2);
                                 $$=$1;
                             }
@@ -460,7 +460,7 @@ case_expr_list      :   case_expr_list  case_expr
                         {   TreeNode t=(TreeNode)$1;
                             if(t!=null){
                                 while(t.getSibling()!=null)
-                                  t.setSibling(t.getSibling());
+                                  t=t.getSibling();
                                 t.setSibling((TreeNode)$2);
                                 $$=$1;
                             }
@@ -528,11 +528,11 @@ proc_stmt           :   ID
                             $$.addChild($3);
                         };
 args_list           :   args_list TOKEN_COMMA expression
-                        {   TreeNode t=(TreeNode)$1;
+                        {   TreeNode t=$1;
                             if(t!=null){
                                 while(t.getSibling()!=null)
-                                  t.setSibling(t.getSibling());
-                                t.setSibling((TreeNode)$3);
+                                  t=t.getSibling();
+                                t.setSibling($3);
                                 $$=$1;
                             }
                             else
@@ -625,16 +625,17 @@ factor              :   ID
                     ;
 %%
 
-    private scanner lexer;  
+     private scanner lexer;  
     private TreeNode savedTree;
     private char[] savedName;
     private int savedNum;
-    private int yyline=lexer.getLine();;
+    private int yyline;
     /* interface to the lexer */  
     private int yylex() {  
         int retVal = -1;  
         try {  
             retVal = lexer.yylex();
+            yyline=lexer.getLine();
         } catch (IOException e) {  
             System.err.println("IO Error:" + e);  
         }  
@@ -646,14 +647,31 @@ factor              :   ID
     public Parser (Reader r) {  
         lexer = new scanner (r, this);  
     }  
-  
+    static boolean interactive;
     public static void main (String [] args) throws IOException {  
-        Parser yyparser = new Parser(new InputStreamReader(System.in));  
-        yyparser.yyparse();  
+        Parser yyparser;
+//      if ( args.length > 0 ) {
+            // parse a file
+        yyparser = new Parser(new FileReader("C:/Users/mwindson/compiler/Pascal-compiler/test/calculate.txt"));
+//      }
+//      else {
+//          // interactive mode
+//          System.out.println("[Quit with CTRL-D]");
+//          System.out.print("Expression: ");
+//          interactive = true;
+//          yyparser = new Parser(new InputStreamReader(System.in));
+//      }
+        System.err.println("YACC: Parsing...");
+        yyparser.yyparse();
+        System.err.println("YACC: Parsed...");
+        if (interactive) {
+            System.out.println();
+            System.out.println("Have a nice day");
+        } 
    
     }  
-  
-    /* error reporting */  
+
+        /* error reporting */  
     public void yyerror (String error) {  
         System.err.println("Error : " + error + " at line " + lexer.getLine());  
     }  

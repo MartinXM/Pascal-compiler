@@ -18,9 +18,9 @@ public class CodeGenerator {
 
     private static Map<Class, Map<Object, Generator> > generators = new HashMap<>();
 
-    protected StringBuilder dataSegment;
+    protected StringBuilder dataSegment=new StringBuilder();
 
-    protected StringBuilder codeSegment;
+    protected StringBuilder codeSegment=new StringBuilder();
 
     private CodeGenerator() {
 
@@ -64,19 +64,24 @@ public class CodeGenerator {
     }
 
     public void generate(TreeNode node) {
-        generate(node, "out.asm");
+        if(node==null){
+        	System.out.println("null node");
+        }else{
+        	System.out.println("not null node");
+    	generate(node, "out.asm");
+        }
     }
 
-    void writeDataLine(String line) {
-        dataSegment.append(line).append('\n');
+    void writeDataLine(String line) {   	
+        dataSegment.append(line).append('\n');   
     }
 
     void writeCodeLine(String line) {
         codeSegment.append(line).append('\n');
     }
 
-    public void generate(TreeNode node, String fileName) {
-        beforeGC(node);
+    public void generate(TreeNode node, String fileName) {  	
+    	beforeGC(node);
         generateCode(node);
         afterGC();
         writeFinalFile(fileName);
@@ -101,9 +106,9 @@ public class CodeGenerator {
         writeDataLine("lb_read_real db '%f',0");
 
         writeCodeLine(".code");
-
 //        initScope();
         node.setAttribute("main");
+        node.printTree(node);
     }
 
     private void afterGC() {
@@ -126,14 +131,20 @@ public class CodeGenerator {
         }
     }
 
-    protected void generateCode(TreeNode node) {
-        generateCode(node, true);
+    protected void generateCode(TreeNode node){
+        if (node == null) {
+        	System.out.println("null node");
+            //warning(node.getLineNumber(), "Null node.");
+           // return;
+        }
+    	generateCode(node, true);
     }
 
     protected void generateCode(TreeNode node, boolean travelSibling) {
         if (node == null) {
-            warning(node.getLineNumber(), "Null node.");
-            return;
+        	System.out.println("null node");
+            //warning(node.getLineNumber(), "Null node.");
+           // return;
         }
         generators.get(node.getKind().getClass()).get(node.getKind()).generateCode(node);
         if (travelSibling) {

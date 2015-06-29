@@ -21,6 +21,8 @@ package ylex;
 //#line 2 "tiny.y"
 /*#define YYPARSER*/
 import java.io.*; 
+
+import codegeneration.CodeGenerator;
 import tree.*; 
 
 //#line 22 "Parser.java"
@@ -731,16 +733,17 @@ final static String yyrule[] = {
 
 //#line 627 "tiny.y"
 
-    private scanner lexer;  
+     private scanner lexer;  
     private TreeNode savedTree;
     private char[] savedName;
     private int savedNum;
-    private int yyline=lexer.getLine();;
+    private int yyline;
     /* interface to the lexer */  
     private int yylex() {  
         int retVal = -1;  
         try {  
             retVal = lexer.yylex();
+            yyline=lexer.getLine();
         } catch (IOException e) {  
             System.err.println("IO Error:" + e);  
         }  
@@ -752,18 +755,39 @@ final static String yyrule[] = {
     public Parser (Reader r) {  
         lexer = new scanner (r, this);  
     }  
-  
+    public TreeNode parse(){
+        yyparse();
+        return this.savedTree;
+    }
+    static boolean interactive;
     public static void main (String [] args) throws IOException {  
-        Parser yyparser = new Parser(new InputStreamReader(System.in));  
-        yyparser.yyparse();  
-   
+        Parser yyparser;
+//      if ( args.length > 0 ) {
+            // parse a file
+        yyparser = new Parser(new FileReader("C:/Users/mwindson/compiler/Pascal-compiler/test/calculate"));
+//      }
+//      else {
+//          // interactive mode
+//          System.out.println("[Quit with CTRL-D]");
+//          System.out.print("Expression: ");
+//          interactive = true;
+//          yyparser = new Parser(new InputStreamReader(System.in));
+//      }
+        System.err.println("YACC: Parsing...");
+        //yyparser.yyparse();
+        TreeNode syntaxTree = yyparser.parse();
+        System.out.println(syntaxTree);
+        System.err.println("YACC: Parsed...");
+        syntaxTree.printTree(syntaxTree);
+        CodeGenerator.getCodeGenerator().generate(syntaxTree);
+        System.err.println("code generation end");
+        
     }  
-  
     /* error reporting */  
     public void yyerror (String error) {  
         System.err.println("Error : " + error + " at line " + lexer.getLine());  
     }  
-//#line 693 "Parser.java"
+//#line 706 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -950,7 +974,7 @@ case 5:
 {   TreeNode t=val_peek(1).node;
                             if(t!=null){
                                 while(t.getSibling()!=null)
-                                  t.setSibling(t.getSibling());
+                                  t=t.getSibling();
                                 t.setSibling(val_peek(0).node);
                                 yyval.node=val_peek(1).node;
                             }
@@ -963,7 +987,7 @@ case 6:
 {   TreeNode t=val_peek(1).node;
                             if(t!=null){
                                 while(t.getSibling()!=null)
-                                  t.setSibling(t.getSibling());
+                                  t=t.getSibling();
                                 t.setSibling(val_peek(0).node);
                                 yyval.node=val_peek(1).node;
                             }
@@ -1009,7 +1033,7 @@ case 13:
 {   TreeNode t=(TreeNode)val_peek(2).node;
                             if(t!=null){
                                 while(t.getSibling()!=null)
-                                  t.setSibling(t.getSibling());
+                                  t=t.getSibling();
                                 t.setSibling((TreeNode)val_peek(0).node);
                                 yyval.node=val_peek(2).node;
                             }
@@ -1066,7 +1090,7 @@ case 21:
 {   TreeNode t = (TreeNode)val_peek(1).node;
                             if(t!=null){
                                 while(t.getSibling()!=null)
-                                  t.setSibling(t.getSibling());
+                                  t=t.getSibling();
                                 t.setSibling((TreeNode)val_peek(0).node);
                                 yyval.node=val_peek(1).node;
                             }
@@ -1099,7 +1123,7 @@ case 26:
                             TreeNode t = (TreeNode)val_peek(1).node;
                             if(t!=null){
                                 while(t.getSibling()!=null)
-                                  t.setSibling(t.getSibling());
+                                  t=t.getSibling();
                                 t.setSibling((TreeNode)val_peek(0).node);
                                 yyval.node=val_peek(1).node;
                             }
@@ -1191,7 +1215,7 @@ case 38:
                             TreeNode t=val_peek(1).node;
                             if(t!=null){
                                 while(t.getSibling()!=null)
-                                  t.setSibling(t.getSibling());
+                                  t=t.getSibling();
                                 t.setSibling(val_peek(0).node);
                                 yyval.node=val_peek(1).node;
                             }
@@ -1232,7 +1256,7 @@ case 45:
                             TreeNode t=val_peek(1).node;
                             if(t!=null){
                                 while(t.getSibling()!=null)
-                                  t.setSibling(t.getSibling());
+                                  t=t.getSibling();
                                 t.setSibling(val_peek(0).node);
                                 yyval.node=val_peek(1).node;
                             }
@@ -1343,7 +1367,7 @@ case 59:
                             TreeNode t=val_peek(2).node;
                             if(t!=null){
                                 while(t.getSibling()!=null)
-                                  t.setSibling(t.getSibling());
+                                  t=t.getSibling();
                                 t.setSibling(val_peek(0).node);
                                 yyval.node=val_peek(2).node;
                             }
@@ -1379,7 +1403,7 @@ case 65:
                             TreeNode t=val_peek(2).node;
                             if(t!=null){
                                 while(t.getSibling()!=null)
-                                  t.setSibling(t.getSibling());
+                                  t=t.getSibling();
                                 t.setSibling(val_peek(1).node);
                                 yyval.node=val_peek(2).node;
                             }
@@ -1510,7 +1534,7 @@ case 88:
 {   TreeNode t=(TreeNode)val_peek(1).node;
                             if(t!=null){
                                 while(t.getSibling()!=null)
-                                  t.setSibling(t.getSibling());
+                                  t=t.getSibling();
                                 t.setSibling((TreeNode)val_peek(0).node);
                                 yyval.node=val_peek(1).node;
                             }
@@ -1603,11 +1627,11 @@ case 99:
 break;
 case 100:
 //#line 531 "tiny.y"
-{   TreeNode t=(TreeNode)val_peek(2).node;
+{   TreeNode t=val_peek(2).node;
                             if(t!=null){
                                 while(t.getSibling()!=null)
-                                  t.setSibling(t.getSibling());
-                                t.setSibling((TreeNode)val_peek(0).node);
+                                  t=t.getSibling();
+                                t.setSibling(val_peek(0).node);
                                 yyval.node=val_peek(2).node;
                             }
                             else
@@ -1779,7 +1803,7 @@ case 133:
                             /*$$=newFuncSysExpNode(SUCC,$3);*/
                         }
 break;
-//#line 1704 "Parser.java"
+//#line 1717 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

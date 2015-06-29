@@ -11,6 +11,6 @@ public class VariableList {
 	public int nestLevel;
 	public Object pAttr; /*pAttr point to the definition detail when type is enum, array or record, otherwise null*/	
 	public LineList lines;
-	public MemLoc memloc;
+	public MemLoc memloc=new MemLoc();
 	public VariableList next;
 }

@@ -129,4 +129,27 @@ public class TreeNode {
     public void setRunningType(ExpType runningType) {
         this.runningType = runningType;
     }
+    
+    public void printTree(TreeNode tree){
+        int i;
+        while(tree!=null){
+           System.out.println("line number "+" kind       "+
+        "  attribute "+" type "+" runningType ");
+           System.out.print("     "+tree.getLineNumber());
+           System.out.print("       "+tree.getKind());
+           System.out.print("  "+tree.getAttribute());
+           System.out.print("       "+tree.getType());
+           System.out.print("     "+tree.getRunningType()+"\n");
+                    
+            for(i=0;i<tree.getChildren().size();i++){
+              if(tree.getChildren().get(i)==null){
+            	  System.out.println("children:"+i+" is null "); 
+              }else{
+            	  System.out.println("children:"+i);
+                  printTree(tree.getChildren().get(i));
+              }
+            }
+            tree=tree.getSibling();
+        }
+    }
 }

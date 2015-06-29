@@ -24,7 +24,7 @@ real={digit}+\.{digit}+
 number={digit}+
 letter=[a-zA-Z]
 identifier={letter}+
-newline=\n
+newline=[ \n\r]+
 whitespace=[ \t]+
 char=\'.\'
 string=\".*\"
@@ -105,5 +105,5 @@ string=\".*\"
 {string}    {yyparser.yylval = new ParserVal(yytext());return Parser.TOKEN_STRING;}
 {identifier} {yyparser.yylval = new ParserVal(yytext());return Parser.TOKEN_ID;}
 {newline}   {yyline++;}
-{whitespace}    {/*ignore*/}
+{whitespace}    {}
 
