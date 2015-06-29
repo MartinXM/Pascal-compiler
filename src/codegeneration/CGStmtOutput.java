@@ -15,9 +15,6 @@ public class CGStmtOutput extends Generator {
 
     @Override
     void generateCode(TreeNode node) {
-        if (node.getChildren().size() == 1) {
-            codeGenerator.error(node.getLineNumber(), "Wrong output-statement.");
-        }
         TreeNode child = node.getChildren().get(0);
         while (child != null) {
             codeGenerator.generateCode(child, false);
@@ -28,7 +25,7 @@ public class CGStmtOutput extends Generator {
                 codeGenerator.writeCodeLine("fld dword ptr [esp]");
                 codeGenerator.writeCodeLine("sub esp, 4");
                 codeGenerator.writeCodeLine("fstp qword ptr [esp]");
-                if ((OpKind)node.getAttribute() == OpKind.WRITELN) {
+                if (node.getAttribute() == OpKind.WRITELN) {
                     codeGenerator.writeCodeLine("push offset lb_writeln_real");
                 } else {
                     codeGenerator.writeCodeLine("push offset lb_write_real");
@@ -37,7 +34,7 @@ public class CGStmtOutput extends Generator {
                 codeGenerator.writeCodeLine("add esp, 8");
                 codeGenerator.writeCodeLine("pop eax");
             } else if (child.getRunningType() == ExpType.INT) {
-                if ((OpKind)node.getAttribute() == OpKind.WRITELN) {
+                if (node.getAttribute() == OpKind.WRITELN) {
                     codeGenerator.writeCodeLine("invoke printf,offset lb_writeln_int, eax");
                 } else {
                     codeGenerator.writeCodeLine("invoke printf,offset lb_write_int, eax");

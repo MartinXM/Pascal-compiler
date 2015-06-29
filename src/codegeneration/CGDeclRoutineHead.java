@@ -16,7 +16,7 @@ public class CGDeclRoutineHead extends Generator {
     void generateCode(TreeNode node) {
         int sizeParam = Symbol.enterNewScope(node);
 
-        if (node.getChildren().size() >= 4)
+        if (node.getChildren().get(3) != null)
             codeGenerator.generateCode(node.getChildren().get(3));
 
         if (!(node.getAttribute()).equals("main")){

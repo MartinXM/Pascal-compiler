@@ -1,6 +1,7 @@
 package codegeneration;
 
 import tree.*;
+import Symbol.Symbol;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -18,9 +19,9 @@ public class CodeGenerator {
 
     private static Map<Class, Map<Object, Generator> > generators = new HashMap<>();
 
-    protected StringBuilder dataSegment=new StringBuilder();
+    protected StringBuilder dataSegment = new StringBuilder();
 
-    protected StringBuilder codeSegment=new StringBuilder();
+    protected StringBuilder codeSegment = new StringBuilder();
 
     private CodeGenerator() {
 
@@ -64,12 +65,7 @@ public class CodeGenerator {
     }
 
     public void generate(TreeNode node) {
-        if(node==null){
-        	System.out.println("null node");
-        }else{
-        	System.out.println("not null node");
     	generate(node, "out.asm");
-        }
     }
 
     void writeDataLine(String line) {   	
@@ -106,14 +102,14 @@ public class CodeGenerator {
         writeDataLine("lb_read_real db '%f',0");
 
         writeCodeLine(".code");
-//        initScope();
+        Symbol.initScope();
         node.setAttribute("main");
         node.printTree(node);
     }
 
     private void afterGC() {
-//        int paraSize = leaveScope();
-//        writeCodeLine("add esp, " + paraSize);
+        int paraSize = Symbol.leaveScope();
+        writeCodeLine("add esp, " + paraSize);
         writeCodeLine("ret");
         writeCodeLine("main ENDP");
         writeCodeLine("END main");
@@ -132,32 +128,35 @@ public class CodeGenerator {
     }
 
     protected void generateCode(TreeNode node){
-        if (node == null) {
-        	System.out.println("null node");
-            //warning(node.getLineNumber(), "Null node.");
-           // return;
-        }
     	generateCode(node, true);
     }
 
     protected void generateCode(TreeNode node, boolean travelSibling) {
-        if (node == null) {
-        	System.out.println("null node");
-            //warning(node.getLineNumber(), "Null node.");
-           // return;
-        }
+//        if (node == null) {
+//            error(0, "Null node.");
+//        }
         generators.get(node.getKind().getClass()).get(node.getKind()).generateCode(node);
         if (travelSibling) {
-            generateCode(node.getSibling(), true);
+            if (node.getSibling() != null) {
+                generateCode(node.getSibling(), true);
+            }
         }
     }
 
     public void error(int lineNumber, String message) {
-        System.out.println("Code generation error(line " + lineNumber + "): " + message);
+        if (lineNumber > 0) {
+            System.out.println("Code generation error(line " + lineNumber + "): " + message);
+        }  else {
+            System.out.println("Code generation error: " + message);
+        }
         System.exit(1);
     }
 
     public void warning(int lineNumber, String message) {
-        System.out.println("Code generation warning(line " + lineNumber + "): " + message);
+        if (lineNumber > 0) {
+            System.out.println("Code generation warning(line " + lineNumber + "): " + message);
+        } else {
+            System.out.println("Code generation warning: " + message);
+        }
     }
 }

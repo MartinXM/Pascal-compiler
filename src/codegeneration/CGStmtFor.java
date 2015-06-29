@@ -14,9 +14,6 @@ public class CGStmtFor extends Generator {
 
     @Override
     void generateCode(TreeNode node) {
-        if (node.getChildren().size() != 4) {
-            codeGenerator.error(node.getLineNumber(), "Wrong for-statement.");
-        }
 
         String startLabel = LabelManager.createLabel();
         String endLabel = LabelManager.createLabel();

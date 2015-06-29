@@ -16,7 +16,7 @@ public class CGExpOp extends Generator {
     @Override
     void generateCode(TreeNode node) {
 
-        if (node.getChildren().size() == 2) {
+        if (node.getChildren().get(0) != null && node.getChildren().get(1) != null) {
 
             TreeNode child1 = node.getChildren().get(0);
             TreeNode child2 = node.getChildren().get(1);
@@ -32,7 +32,7 @@ public class CGExpOp extends Generator {
 
             node.setRunningType(child1.getRunningType());
 
-        } else if (node.getChildren().size() == 1) {
+        } else if (node.getChildren().get(0) != null) {
             // 单目运算符，目前只支持正负号，左操作数为0
             codeGenerator.writeCodeLine("push 0");
             codeGenerator.generateCode(node.getChildren().get(0));

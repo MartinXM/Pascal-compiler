@@ -764,7 +764,7 @@ final static String yyrule[] = {
         Parser yyparser;
 //      if ( args.length > 0 ) {
             // parse a file
-        yyparser = new Parser(new FileReader("C:/Users/mwindson/compiler/Pascal-compiler/test/calculate"));
+        yyparser = new Parser(new FileReader("/Users/kehanyang/Documents/Documents/Courses/Computer Courses/Compiler Design/project/Pascal-compiler/test/calculate"));
 //      }
 //      else {
 //          // interactive mode

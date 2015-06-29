@@ -13,9 +13,6 @@ public class CGStmtIf extends Generator {
 
     @Override
     void generateCode(TreeNode node) {
-        if (node.getChildren().size() < 2 || node.getChildren().size() > 3) {
-            codeGenerator.error(node.getLineNumber(), "Wrong if-statement.");
-        }
         String elseLabel = LabelManager.createLabel();
         String exitLabel = LabelManager.createLabel();
         codeGenerator.generateCode(node.getChildren().get(0));
@@ -24,7 +21,7 @@ public class CGStmtIf extends Generator {
         codeGenerator.generateCode(node.getChildren().get(1));
         codeGenerator.writeCodeLine("jmp " + exitLabel);
         codeGenerator.writeCodeLine(elseLabel + ":");
-        if (node.getChildren().size() == 3) {
+        if (node.getChildren().get(2) != null) {
             codeGenerator.generateCode(node.getChildren().get(2));
         }
         codeGenerator.writeCodeLine(exitLabel + ":");

@@ -14,9 +14,6 @@ public class CGStmtInput extends Generator {
 
     @Override
     void generateCode(TreeNode node) {
-        if (node.getChildren().size() != 1) {
-            codeGenerator.error(node.getLineNumber(), "Wrong input-statement.");
-        }
         TreeNode child = node.getChildren().get(0);
         while (child != null) {
             codeGenerator.generateCode(child, false);   // 获取目标变量的地址
