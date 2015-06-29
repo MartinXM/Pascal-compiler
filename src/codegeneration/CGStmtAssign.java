@@ -22,7 +22,7 @@ public class CGStmtAssign extends Generator {
             codeGenerator.error(node.getLineNumber(), "Attempt to assign a const variable.");
         }
         codeGenerator.generateCode(node.getChildren().get(0));
-        codeGenerator.writeCodeLine("pop eax\n");
-        codeGenerator.writeCodeLine("mov [esi-0], eax; assign\n");
+        codeGenerator.writeCodeLine("pop eax");
+        codeGenerator.writeCodeLine("mov [esi-0], eax; assign");
     }
 }
