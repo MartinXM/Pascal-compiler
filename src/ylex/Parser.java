@@ -20,7 +20,8 @@ package ylex;
 
 //#line 2 "tiny.y"
 /*#define YYPARSER*/
-import java.io.*; 
+import java.io.*;
+import java.util.Scanner;
 
 import codegeneration.CodeGenerator;
 import tree.*; 
@@ -764,7 +765,10 @@ final static String yyrule[] = {
        Parser yyparser;
 //      if ( args.length > 0 ) {
             // parse a file
-        yyparser = new Parser(new FileReader("C:/Users/mwindson/compiler/Pascal-compiler/test/calculate"));
+        System.out.println("Input file path:");
+        Scanner in = new Scanner(System.in);
+        String filePath = in.nextLine();
+        yyparser = new Parser(new FileReader(filePath));
 //      }
 //      else {
 //          // interactive mode

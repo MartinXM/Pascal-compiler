@@ -1,28 +1,24 @@
 program a; 
 var
-i:integer;
-function ff(u:integer):integer;
-var x:integer;
-   function gg(v:integer):integer;
-   var y:integer;
-          function hh(w:integer):integer;
-          var z:integer;
-          begin
-              z:=10;
-              hh:=w;
-              x:=11;
-              y:=12;
-          end;
-   begin
-    gg:=hh(v+1);
-    write(y);   
-   end; 
+i,j,z:integer;
+a,b,c:real;
 begin
-  ff:=gg(u+1);
-  write(x);
-end;
+a:=0.2;
+b:=-0.3;
+c:=a+b-0.001;
+writeln(c);
+c:=a*b;
+writeln(c);
 
-begin
-i:=ff(1);
-write(i);
+if c<0.1 then
+ writeln(1)
+else
+ writeln(0);
+
+i:=2;
+j:=-3;
+z:=i*j;
+writeln(z);
+z:=i mod j;
+writeln(z);
 end.

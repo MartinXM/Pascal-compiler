@@ -406,7 +406,7 @@ public class Symbol {
 		VariableList l = varListLookup(rec);
 		TypeList plist;
 		int size = 0;
-		LookupRet ret = null;
+		LookupRet ret = new LookupRet();
 		ret.totalOff = ERROR_RETURN;
 		ret.jumpLevel = ERROR_RETURN;
 		ret.type = ExpType.VOID;
