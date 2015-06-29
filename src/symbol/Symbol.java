@@ -286,7 +286,7 @@ public class Symbol {
         TypeList l = typeHashTable[h];
         while ((l != null) && (name.compareTo(l.name) != 0))
             l = l.next;
-        if (l != null) {
+        if (l != null) {// 这么做不行，如果name又是另一个type的别名，就查找不到
             AliaseList t = l.aliaseSet;
             while (t.next != null)
                 t = t.next;
