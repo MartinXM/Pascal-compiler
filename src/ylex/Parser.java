@@ -731,7 +731,7 @@ final static String yyrule[] = {
 "factor : TOKEN_SUCC TOKEN_LP args_list TOKEN_RP",
 };
 
-//#line 627 "tiny.y"
+//#line 623 "tiny.y"
 
      private scanner lexer;  
     private TreeNode savedTree;
@@ -761,10 +761,10 @@ final static String yyrule[] = {
     }
     static boolean interactive;
     public static void main (String [] args) throws IOException {  
-        Parser yyparser;
+       Parser yyparser;
 //      if ( args.length > 0 ) {
             // parse a file
-        yyparser = new Parser(new FileReader("/Users/kehanyang/Documents/Documents/Courses/Computer Courses/Compiler Design/project/Pascal-compiler/test/calculate"));
+        yyparser = new Parser(new FileReader("C:/Users/mwindson/compiler/Pascal-compiler/test/calculate"));
 //      }
 //      else {
 //          // interactive mode
@@ -781,13 +781,13 @@ final static String yyrule[] = {
         syntaxTree.printTree(syntaxTree);
         CodeGenerator.getCodeGenerator().generate(syntaxTree);
         System.err.println("code generation end");
-        
     }  
-    /* error reporting */  
+
+        /* error reporting */  
     public void yyerror (String error) {  
         System.err.println("Error : " + error + " at line " + lexer.getLine());  
     }  
-//#line 706 "Parser.java"
+//#line 715 "Parser.java"
 //###############################################################
 // method: yylexdebug : check lexer state
 //###############################################################
@@ -1030,11 +1030,11 @@ case 12:
 break;
 case 13:
 //#line 95 "tiny.y"
-{   TreeNode t=(TreeNode)val_peek(2).node;
+{   TreeNode t=val_peek(2).node;
                             if(t!=null){
                                 while(t.getSibling()!=null)
                                   t=t.getSibling();
-                                t.setSibling((TreeNode)val_peek(0).node);
+                                t.setSibling(val_peek(0).node);
                                 yyval.node=val_peek(2).node;
                             }
                             else
@@ -1087,11 +1087,11 @@ case 20:
 break;
 case 21:
 //#line 141 "tiny.y"
-{   TreeNode t = (TreeNode)val_peek(1).node;
+{   TreeNode t = val_peek(1).node;
                             if(t!=null){
                                 while(t.getSibling()!=null)
                                   t=t.getSibling();
-                                t.setSibling((TreeNode)val_peek(0).node);
+                                t.setSibling(val_peek(0).node);
                                 yyval.node=val_peek(1).node;
                             }
                             else
@@ -1120,11 +1120,11 @@ break;
 case 26:
 //#line 165 "tiny.y"
 {
-                            TreeNode t = (TreeNode)val_peek(1).node;
+                            TreeNode t = val_peek(1).node;
                             if(t!=null){
                                 while(t.getSibling()!=null)
                                   t=t.getSibling();
-                                t.setSibling((TreeNode)val_peek(0).node);
+                                t.setSibling(val_peek(0).node);
                                 yyval.node=val_peek(1).node;
                             }
                             else
@@ -1464,7 +1464,7 @@ case 77:
 {   yyval.node=new TreeNode(StmtKind.ASSIGN,yyline);
                             yyval.node.addChild(val_peek(2).node);
                             yyval.node.addChild(val_peek(0).node);
-                            yyval.node.setAttribute(TOKEN_ID);
+                            yyval.node.setAttribute(OpKind.ID);
                         }
 break;
 case 78:
@@ -1473,7 +1473,7 @@ case 78:
                             yyval.node.addChild(val_peek(5).node);
                             (yyval.node.getChildren().get(0)).addChild(val_peek(3).node);
                             yyval.node.addChild(val_peek(0).node);
-                            yyval.node.setAttribute(TOKEN_ARRAY);
+                            yyval.node.setAttribute(OpKind.ARRAY);
                         }
 break;
 case 79:
@@ -1482,7 +1482,7 @@ case 79:
                             yyval.node.addChild(val_peek(4).node);
                             (yyval.node.getChildren().get(0)).addChild(val_peek(2).node);
                             yyval.node.addChild(val_peek(0).node);
-                            yyval.node.setAttribute(TOKEN_RECORD);
+                            yyval.node.setAttribute(OpKind.RECORD);
                         }
 break;
 case 80:
@@ -1518,8 +1518,8 @@ break;
 case 86:
 //#line 450 "tiny.y"
 {   yyval.node=new TreeNode(StmtKind.WHILE,yyline);
-                            yyval.node.addChild((TreeNode)val_peek(2).node);
-                            yyval.node.addChild((TreeNode)val_peek(0).node);
+                            yyval.node.addChild(val_peek(2).node);
+                            yyval.node.addChild(val_peek(0).node);
                         }
 break;
 case 87:
@@ -1531,11 +1531,11 @@ case 87:
 break;
 case 88:
 //#line 460 "tiny.y"
-{   TreeNode t=(TreeNode)val_peek(1).node;
+{   TreeNode t=val_peek(1).node;
                             if(t!=null){
                                 while(t.getSibling()!=null)
                                   t=t.getSibling();
-                                t.setSibling((TreeNode)val_peek(0).node);
+                                t.setSibling(val_peek(0).node);
                                 yyval.node=val_peek(1).node;
                             }
                             else
@@ -1570,7 +1570,7 @@ case 92:
                             yyval.node.addChild(val_peek(4).node);
                             yyval.node.addChild(val_peek(2).node);
                             yyval.node.addChild(val_peek(0).node);
-                            yyval.node.setAttribute(TOKEN_TO);
+                            yyval.node.setAttribute(OpKind.TO);
                         }
 break;
 case 93:
@@ -1581,7 +1581,7 @@ case 93:
                             yyval.node.addChild(val_peek(4).node);
                             yyval.node.addChild(val_peek(2).node);
                             yyval.node.addChild(val_peek(0).node);
-                            yyval.node.setAttribute(TOKEN_DOWNTO);
+                            yyval.node.setAttribute(OpKind.DOWNTO);
                         }
 break;
 case 94:
@@ -1601,27 +1601,27 @@ case 96:
 //#line 511 "tiny.y"
 {
                             yyval.node=new TreeNode(StmtKind.PROC_SYS,yyline);
-                            yyval.node.setAttribute(TOKEN_READ);
+                            yyval.node.setAttribute(OpKind.READ);
                             yyval.node.addChild(val_peek(1).node);
                         }
 break;
 case 97:
 //#line 517 "tiny.y"
 {   yyval.node=new TreeNode(StmtKind.PROC_SYS,yyline);
-                            yyval.node.setAttribute(TOKEN_WRITE);
+                            yyval.node.setAttribute(OpKind.WRITE);
                             yyval.node.addChild(val_peek(1).node);
                         }
 break;
 case 98:
 //#line 522 "tiny.y"
 {   yyval.node=new TreeNode(StmtKind.PROC_SYS,yyline);
-                            yyval.node.setAttribute(TOKEN_WRITELN);
+                            yyval.node.setAttribute(OpKind.WRITELN);
                         }
 break;
 case 99:
 //#line 526 "tiny.y"
 {   yyval.node=new TreeNode(StmtKind.PROC_SYS,yyline);
-                            yyval.node.setAttribute(TOKEN_WRITELN);
+                            yyval.node.setAttribute(OpKind.WRITELN);
                             yyval.node.addChild(val_peek(1).node);
                         }
 break;
@@ -1748,62 +1748,58 @@ case 125:
 //#line 585 "tiny.y"
 {   yyval.node=val_peek(2).node;
                             yyval.node.addChild(val_peek(0).node);
-                            /*child[0]=$3;*/
-                            yyval.node.setType(ExpType.RECORD);
-                           /* type=EXPTYPE_RECORD;*/
+                            yyval.node.setType(ExpType.RECORD);                         
                         }
 break;
 case 126:
-//#line 592 "tiny.y"
-{   /*$$=newFuncSysExpNode(TOKEN_ABS,$3);*/
+//#line 590 "tiny.y"
+{   
                             yyval.node=new TreeNode(OpKind.ABS, val_peek(1).node,yyline);
                         }
 break;
 case 127:
-//#line 596 "tiny.y"
-{   /*$$=newFuncSysExpNode(TOKEN_CHR,$3);*/
+//#line 594 "tiny.y"
+{   
                             yyval.node=new TreeNode(OpKind.CHR, val_peek(1).node,yyline);
                         }
 break;
 case 128:
-//#line 600 "tiny.y"
-{   /*$$=newFuncSysExpNode(TOKEN_ODD,$3);*/
+//#line 598 "tiny.y"
+{   
                             yyval.node=new TreeNode(OpKind.ODD, val_peek(1).node,yyline);
                         }
 break;
 case 129:
-//#line 604 "tiny.y"
+//#line 602 "tiny.y"
 {   
-                            /*$$=newFuncSysExpNode(TOKEN_ORD,$3);*/
+                           
                             yyval.node=new TreeNode(OpKind.ORD, val_peek(1).node,yyline);
                         }
 break;
 case 130:
-//#line 609 "tiny.y"
+//#line 607 "tiny.y"
 {   
                             yyval.node=new TreeNode(OpKind.PRED, val_peek(1).node,yyline);
                         }
 break;
 case 131:
-//#line 613 "tiny.y"
-{   /*$$=newFuncSysExpNode(TOKEN_SQR,$3);*/
+//#line 611 "tiny.y"
+{ 
                             yyval.node=new TreeNode(OpKind.SQR, val_peek(1).node,yyline);
                         }
 break;
 case 132:
-//#line 617 "tiny.y"
+//#line 615 "tiny.y"
 {   
-                           /* $$=newFuncSysExpNode(TOKEN_SQRT,$3);*/
                             yyval.node=new TreeNode(OpKind.SQRT, val_peek(1).node,yyline);
                         }
 break;
 case 133:
-//#line 622 "tiny.y"
+//#line 619 "tiny.y"
 {   yyval.node=new TreeNode(OpKind.SUCC, val_peek(1).node,yyline);
-                            /*$$=newFuncSysExpNode(SUCC,$3);*/
                         }
 break;
-//#line 1717 "Parser.java"
+//#line 1722 "Parser.java"
 //########## END OF USER-SUPPLIED ACTIONS ##########
     }//switch
     //#### Now let's reduce... ####

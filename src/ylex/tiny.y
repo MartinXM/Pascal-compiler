@@ -92,11 +92,11 @@ parameters          :
                         {$$=$2;}
                     ;
 para_decl_list      :   para_decl_list  TOKEN_SEMI  para_type_list
-                        {   TreeNode t=(TreeNode)$1;
+                        {   TreeNode t=$1;
                             if(t!=null){
                                 while(t.getSibling()!=null)
                                   t=t.getSibling();
-                                t.setSibling((TreeNode)$3);
+                                t.setSibling($3);
                                 $$=$1;
                             }
                             else
@@ -138,11 +138,11 @@ var_part            :
                         {   $$=$2;}
                     ;
 var_decl_list       :   var_decl_list var_decl
-                        {   TreeNode t = (TreeNode)$1;
+                        {   TreeNode t = $1;
                             if(t!=null){
                                 while(t.getSibling()!=null)
                                   t=t.getSibling();
-                                t.setSibling((TreeNode)$2);
+                                t.setSibling($2);
                                 $$=$1;
                             }
                             else
@@ -163,11 +163,11 @@ const_part          :
                     ;
 const_expr_list     :   const_expr_list const_expr
                         {
-                            TreeNode t = (TreeNode)$1;
+                            TreeNode t = $1;
                             if(t!=null){
                                 while(t.getSibling()!=null)
                                   t=t.getSibling();
-                                t.setSibling((TreeNode)$2);
+                                t.setSibling($2);
                                 $$=$1;
                             }
                             else
@@ -405,14 +405,14 @@ assign_stmt         :   ID TOKEN_ASSIGN expression
                         {   $$=new TreeNode(StmtKind.ASSIGN,yyline);
                             $$.addChild($1);
                             $$.addChild($3);
-                            $$.setAttribute(TOKEN_ID);
+                            $$.setAttribute(OpKind.ID);
                         }
                     |   ID TOKEN_LB expression TOKEN_RB TOKEN_ASSIGN expression
                         {   $$=new TreeNode(StmtKind.ASSIGN,yyline);
                             $$.addChild($1);
                             ($$.getChildren().get(0)).addChild($3);
                             $$.addChild($6);
-                            $$.setAttribute(TOKEN_ARRAY);
+                            $$.setAttribute(OpKind.ARRAY);
                         }
                     |
                         ID TOKEN_DOT ID TOKEN_ASSIGN expression
@@ -420,7 +420,7 @@ assign_stmt         :   ID TOKEN_ASSIGN expression
                             $$.addChild($1);
                             ($$.getChildren().get(0)).addChild($3);
                             $$.addChild($5);
-                            $$.setAttribute(TOKEN_RECORD);
+                            $$.setAttribute(OpKind.RECORD);
                         }
                     ;
 goto_stmt           :   TOKEN_GOTO  TOKEN_INT
@@ -448,8 +448,8 @@ repeat_stmt         :   TOKEN_REPEAT stmt_list TOKEN_UNTIL expression
                     ;
 while_stmt          :   TOKEN_WHILE expression TOKEN_DO stmt
                         {   $$=new TreeNode(StmtKind.WHILE,yyline);
-                            $$.addChild((TreeNode)$2);
-                            $$.addChild((TreeNode)$4);
+                            $$.addChild($2);
+                            $$.addChild($4);
                         };
 case_stmt           :   TOKEN_CASE expression TOKEN_OF case_expr_list TOKEN_END
                         {   $$=new TreeNode(StmtKind.CASE,yyline);
@@ -457,11 +457,11 @@ case_stmt           :   TOKEN_CASE expression TOKEN_OF case_expr_list TOKEN_END
                             $$.addChild($4);
                         };
 case_expr_list      :   case_expr_list  case_expr
-                        {   TreeNode t=(TreeNode)$1;
+                        {   TreeNode t=$1;
                             if(t!=null){
                                 while(t.getSibling()!=null)
                                   t=t.getSibling();
-                                t.setSibling((TreeNode)$2);
+                                t.setSibling($2);
                                 $$=$1;
                             }
                             else
@@ -487,7 +487,7 @@ for_stmt            :   TOKEN_FOR ID TOKEN_ASSIGN expression TOKEN_TO expression
                             $$.addChild($4);
                             $$.addChild($6);
                             $$.addChild($8);
-                            $$.setAttribute(TOKEN_TO);
+                            $$.setAttribute(OpKind.TO);
                         }
                     |   TOKEN_FOR ID TOKEN_ASSIGN expression TOKEN_DOWNTO expression TOKEN_DO stmt
                         {
@@ -496,7 +496,7 @@ for_stmt            :   TOKEN_FOR ID TOKEN_ASSIGN expression TOKEN_TO expression
                             $$.addChild($4);
                             $$.addChild($6);
                             $$.addChild($8);
-                            $$.setAttribute(TOKEN_DOWNTO);
+                            $$.setAttribute(OpKind.DOWNTO);
                         };
 proc_stmt           :   ID 
                         {   $$=new TreeNode(StmtKind.PROC_ID,yyline);
@@ -510,21 +510,21 @@ proc_stmt           :   ID
                     |   TOKEN_READ TOKEN_LP factor TOKEN_RP
                         {
                             $$=new TreeNode(StmtKind.PROC_SYS,yyline);
-                            $$.setAttribute(TOKEN_READ);
+                            $$.setAttribute(OpKind.READ);
                             $$.addChild($3);
                         }
                     |   TOKEN_WRITE TOKEN_LP args_list TOKEN_RP
                         {   $$=new TreeNode(StmtKind.PROC_SYS,yyline);
-                            $$.setAttribute(TOKEN_WRITE);
+                            $$.setAttribute(OpKind.WRITE);
                             $$.addChild($3);
                         }
                     |   TOKEN_WRITELN
                         {   $$=new TreeNode(StmtKind.PROC_SYS,yyline);
-                            $$.setAttribute(TOKEN_WRITELN);
+                            $$.setAttribute(OpKind.WRITELN);
                         }
                     |   TOKEN_WRITELN TOKEN_LP args_list TOKEN_RP
                         {   $$=new TreeNode(StmtKind.PROC_SYS,yyline);
-                            $$.setAttribute(TOKEN_WRITELN);
+                            $$.setAttribute(OpKind.WRITELN);
                             $$.addChild($3);
                         };
 args_list           :   args_list TOKEN_COMMA expression
@@ -584,25 +584,23 @@ factor              :   ID
                     |   ID TOKEN_DOT ID 
                         {   $$=$1;
                             $$.addChild($3);
-                            //child[0]=$3;
-                            $$.setType(ExpType.RECORD);
-                           // type=EXPTYPE_RECORD;
+                            $$.setType(ExpType.RECORD);                         
                         }
                     |   TOKEN_ABS TOKEN_LP args_list TOKEN_RP
-                        {   //$$=newFuncSysExpNode(TOKEN_ABS,$3);
+                        {   
                             $$=new TreeNode(OpKind.ABS, $3,yyline);
                         }
                     |   TOKEN_CHR TOKEN_LP args_list TOKEN_RP
-                        {   //$$=newFuncSysExpNode(TOKEN_CHR,$3);
+                        {   
                             $$=new TreeNode(OpKind.CHR, $3,yyline);
                         }
                     |   TOKEN_ODD TOKEN_LP args_list TOKEN_RP
-                        {   //$$=newFuncSysExpNode(TOKEN_ODD,$3);
+                        {   
                             $$=new TreeNode(OpKind.ODD, $3,yyline);
                         }
                     |   TOKEN_ORD TOKEN_LP args_list TOKEN_RP
                         {   
-                            //$$=newFuncSysExpNode(TOKEN_ORD,$3);
+                           
                             $$=new TreeNode(OpKind.ORD, $3,yyline);
                         }
                     |   TOKEN_PRED TOKEN_LP args_list TOKEN_RP
@@ -610,17 +608,15 @@ factor              :   ID
                             $$=new TreeNode(OpKind.PRED, $3,yyline);
                         }
                     |   TOKEN_SQR TOKEN_LP args_list TOKEN_RP
-                        {   //$$=newFuncSysExpNode(TOKEN_SQR,$3);
+                        { 
                             $$=new TreeNode(OpKind.SQR, $3,yyline);
                         }
                     |   TOKEN_SQRT TOKEN_LP args_list TOKEN_RP
                         {   
-                           // $$=newFuncSysExpNode(TOKEN_SQRT,$3);
                             $$=new TreeNode(OpKind.SQRT, $3,yyline);
                         }
                     |   TOKEN_SUCC TOKEN_LP args_list TOKEN_RP
                         {   $$=new TreeNode(OpKind.SUCC, $3,yyline);
-                            //$$=newFuncSysExpNode(SUCC,$3);
                         }
                     ;
 %%
@@ -647,12 +643,16 @@ factor              :   ID
     public Parser (Reader r) {  
         lexer = new scanner (r, this);  
     }  
+    public TreeNode parse(){
+        yyparse();
+        return this.savedTree;
+    }
     static boolean interactive;
     public static void main (String [] args) throws IOException {  
-        Parser yyparser;
+       Parser yyparser;
 //      if ( args.length > 0 ) {
             // parse a file
-        yyparser = new Parser(new FileReader("C:/Users/mwindson/compiler/Pascal-compiler/test/calculate.txt"));
+        yyparser = new Parser(new FileReader("/Users/kehanyang/Documents/Documents/Courses/Computer Courses/Compiler Design/project/Pascal-compiler/test/calculate"));
 //      }
 //      else {
 //          // interactive mode
@@ -662,13 +662,13 @@ factor              :   ID
 //          yyparser = new Parser(new InputStreamReader(System.in));
 //      }
         System.err.println("YACC: Parsing...");
-        yyparser.yyparse();
+        //yyparser.yyparse();
+        TreeNode syntaxTree = yyparser.parse();
+        System.out.println(syntaxTree);
         System.err.println("YACC: Parsed...");
-        if (interactive) {
-            System.out.println();
-            System.out.println("Have a nice day");
-        } 
-   
+        syntaxTree.printTree(syntaxTree);
+        CodeGenerator.getCodeGenerator().generate(syntaxTree);
+        System.err.println("code generation end");
     }  
 
         /* error reporting */  

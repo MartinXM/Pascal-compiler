@@ -30,5 +30,8 @@ public enum OpKind {
     SQRT, 
     SUCC, 
     PRED, 
-    SQR;
+    SQR, 
+    ID, 
+    RECORD, 
+    ARRAY;
 }
