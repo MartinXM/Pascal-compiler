@@ -185,7 +185,7 @@ public class SymbolTable {
 
     public static int enterNewScope(TreeNode t) {
         currentNestLevel += 1;
-        totalOffset[currentNestLevel] = buildSymtab(t);
+        totalOffset[currentNestLevel] = updateSymbolTable(t);
         return totalOffset[currentNestLevel];
     }
 
@@ -218,18 +218,14 @@ public class SymbolTable {
         return retValue;
     }
 
-    private static int buildSymtab(TreeNode syntaxTree) {
+    private static int updateSymbolTable(TreeNode syntaxTree) {
         offset = -4;
-        traverse(syntaxTree);
-        return -offset;
-    }
-
-    private static void traverse(TreeNode t) {
-        if (t != null && t.getChildren().size() >= 4) {
+        if (syntaxTree != null && syntaxTree.getChildren().size() >= 4) {
             for (int i = 0; i < 4; i++) {
-                insertNode(t.getChildren().get(i));
+                insertNode(syntaxTree.getChildren().get(i));
             }
         }
+        return -offset;
     }
 
     private static void insertNode(TreeNode t) {
