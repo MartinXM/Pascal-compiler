@@ -40,7 +40,7 @@ public class CGStmtOutput extends Generator {
                     codeGenerator.writeCodeLine("invoke printf,offset lb_write_int, eax");
                 }
             } else {
-                codeGenerator.error(node.getLineNumber(), "Unknown running type.");
+                codeGenerator.error(node.getLineNumber(), "Unknown running type: " + child.getRunningType());
             }
 
             codeGenerator.writeCodeLine("popa");

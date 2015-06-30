@@ -9,7 +9,8 @@ public class TypeDef implements Comparable {
 	public Object pAttr; // pAttr point to the definition detail when type is enum, array or record, otherwise null
 	public int size;
 
-	public TypeDef() {
+	public TypeDef(String name) {
+		this.name = name;
 	}
 
 	public TypeDef(String name, ExpType type, int nestLevel, Object pAttr, int size) {
@@ -22,11 +23,12 @@ public class TypeDef implements Comparable {
 
 	@Override
 	public int compareTo(Object o) {
-		if (!(o instanceof TypeDef)) {
+		if (o instanceof TypeDef) {
+			TypeDef another = (TypeDef)o;
+			return name.compareTo(another.name);
+		} else {
 			return -1;
 		}
-		TypeDef another = (TypeDef)o;
-		return name.compareTo(another.name);
 	}
 
 	@Override

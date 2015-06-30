@@ -27,5 +27,6 @@ public class CGStmtAssign extends Generator {
         codeGenerator.generateCode(node.getChildren().get(0));
         codeGenerator.writeCodeLine("pop eax");
         codeGenerator.writeCodeLine("mov [esi-0], eax; assign");
+        node.getChildren().get(0).setRunningType(node.getChildren().get(1).getRunningType());
     }
 }

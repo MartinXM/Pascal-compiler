@@ -768,7 +768,7 @@ final static String yyrule[] = {
         System.out.println("Input file path:");
 //        Scanner in = new Scanner(System.in);
 //        String filePath = in.nextLine();
-        yyparser = new Parser(new FileReader("/Users/kehanyang/Documents/Documents/Courses/Computer Courses/Compiler Design/project/Pascal-compiler/test/simpleFunction.txt"));
+        yyparser = new Parser(new FileReader("/Users/kehanyang/Documents/Documents/Courses/Computer Courses/Compiler Design/project/Pascal-compiler/test/record.txt"));
 //      }
 //      else {
 //          // interactive mode
@@ -781,8 +781,9 @@ final static String yyrule[] = {
         //yyparser.yyparse();
         TreeNode syntaxTree = yyparser.parse();
         System.out.println(syntaxTree);
-        System.err.println("YACC: Parsed...");
+        System.err.println("YACC: Parsed");
         syntaxTree.printTree(syntaxTree);
+        System.err.println("YACC: Print OK");
         CodeGenerator.getCodeGenerator().generate(syntaxTree);
         System.err.println("code generation end");
     }  

@@ -15,15 +15,15 @@ var x:integer;
           end;
    begin
     gg:=hh(v+1);
-    write(y);   
+    writeln(y);   
    end; 
 begin
   x:=1;
   ff:=gg(u+1);
-  write(x);
+  writeln(x);
 end;
 
 begin
 i:=ff(1);
-write(i);
+writeln(i);
 end.

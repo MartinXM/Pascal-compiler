@@ -99,7 +99,7 @@ public class SymbolTable {
         }
         int nestLevel = variableDef.nestLevel;
         if (definedVar.size() == 0 || nestLevel > definedVar.getFirst().nestLevel) {
-            definedVar.add(variableDef);
+            definedVar.addFirst(variableDef);
         } else {
             System.err.println("Redefine variable: " + name + " in line " + lineNumber);
         }
@@ -166,7 +166,7 @@ public class SymbolTable {
             return ret;
         }
         members = ((RecordDef)l.pAttr).ptr;
-        int size = members.indexOf(a);
+        int size = members.indexOf(new TypeDef(a));
         if (size >= 0) {
             ret.totalOff = size * OFFSET_INC + l.memloc.offset;
             ret.jumpLevel = currentNestLevel - l.nestLevel;
@@ -196,7 +196,7 @@ public class SymbolTable {
         for (Iterator<Map.Entry<String, LinkedList<VariableDef> > >  it = variableDefHashMap.entrySet().iterator(); it.hasNext(); ) {
             Map.Entry<String, LinkedList<VariableDef> > entry = it.next();
             LinkedList<VariableDef> variableDefs = entry.getValue();
-            while (variableDefs.size() != 0 && variableDefs.getFirst().nestLevel >= currentNestLevel) {
+            while (variableDefs.size() != 0 && variableDefs.getFirst().nestLevel > currentNestLevel) {
                 variableDefs.removeFirst();
             }
             if (variableDefs.size() == 0) {
@@ -204,13 +204,14 @@ public class SymbolTable {
             }
         }
 
-        for (HashMap.Entry<String, LinkedList<TypeDef> > entry : typeDefHashMap.entrySet()) {
+        for (Iterator<Map.Entry<String, LinkedList<TypeDef> > >  it = typeDefHashMap.entrySet().iterator(); it.hasNext(); ) {
+            Map.Entry<String, LinkedList<TypeDef> > entry = it.next();
             LinkedList<TypeDef> typeDefs = entry.getValue();
-            while (typeDefs.size() != 0 && typeDefs.getFirst().nestLevel >= currentNestLevel) {
+            while (typeDefs.size() != 0 && typeDefs.getFirst().nestLevel > currentNestLevel) {
                 typeDefs.removeFirst();
             }
             if (typeDefs.size() == 0) {
-                typeDefHashMap.remove(entry.getKey());
+                it.remove();
             }
         }
 
@@ -382,6 +383,7 @@ public class SymbolTable {
                                     typeDefList.add(new TypeDef((String)nameNode.getAttribute(), typeNode.getType(), currentNestLevel, null, OFFSET_INC));
                                     nameNode = nameNode.getSibling();
                                 }
+                                ptype = ptype.getSibling();
                             }
                             RecordDef r = new RecordDef(RecordType.DEFINED, typeDefList);
                             insertType(new TypeDef((String)pname.getAttribute(), ExpType.RECORD, currentNestLevel, r, size * OFFSET_INC), lineNumber);

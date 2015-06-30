@@ -89,6 +89,8 @@ public class CGExpId extends Generator {
         else if (type == ExpType.REAL){
             codeGenerator.writeCodeLine("mov eax, dword ptr [esi]; calculate ExpId(type: real)");
             node.setRunningType(ExpType.REAL);
+        } else {
+            codeGenerator.error(node.getLineNumber(), "Unknown running type: " + node.getChildren().get(0).getRunningType());
         }
     }
 }
