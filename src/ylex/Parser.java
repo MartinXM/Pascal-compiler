@@ -767,7 +767,7 @@ final static String yyrule[] = {
         System.out.println("Input file path:");
 //        Scanner in = new Scanner(System.in);
 //        String filePath = in.nextLine();
-        yyparser = new Parser(new FileReader("C:/Users/mwindson/compiler/Pascal-compiler/test/calculate.txt"));
+        yyparser = new Parser(new FileReader("/Users/kehanyang/Documents/Documents/Courses/Computer Courses/Compiler Design/project/Pascal-compiler/test/gcd.txt"));
 //      }
 //      else {
 //          // interactive mode
@@ -782,11 +782,11 @@ final static String yyrule[] = {
         System.out.println(syntaxTree);
         System.err.println("YACC: Parsed");
         syntaxTree.printTree(syntaxTree);
-        System.out.println("YACC: Print OK");
+        System.err.println("YACC: Print OK");
         TypeCheck.getTypeCheck().typeCheck(syntaxTree);
-        System.out.println("YACC: TypeCheck OK");
+        System.err.println("YACC: TypeCheck OK");
         CodeGenerator.getCodeGenerator().generate(syntaxTree);
-        System.out.println("code generation end");
+        System.err.println("code generation end");
     }  
 
         /* error reporting */  

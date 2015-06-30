@@ -105,19 +105,19 @@ public class TypeCheck {
 	 	checkType = ssvar.type;
 	 	switch(checkType){
 	 		case ARRAY:
-	 			//²»¼ì²éindexÊÇ·ñºÏÀí
+	 			//ï¿½ï¿½ï¿½ï¿½ï¿½indexï¿½Ç·ï¿½ï¿½ï¿½ï¿½
 	 			if(pnode.getChildren().get(0)==null){
-	 				//Ö»ÊÇÊý×é
+	 				//Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 				pnode.setRunningType(checkType);
 	 			}
 	 			else{
-	 				//ÊÇÊý×éÔªËØ
+	 				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôªï¿½ï¿½
 	 				pnode.setRunningType(((ArrayDef)(ssvar.pAttr)).arrayType);
 	 			}
 	 			break;
 	 		case RECORD:
 	 			if(pnode.getChildren().get(0)==null){
-	 				//Ö»ÊÇrecord
+	 				//Ö»ï¿½ï¿½record
 	 				pnode.setRunningType(checkType); 
 	 			}
 	 			else{
@@ -140,7 +140,7 @@ public class TypeCheck {
 	}
 	private void checkExpOp(TreeNode pnode) {
 		if ((pnode.getChildren().get(0))!=null && (pnode.getChildren().get(1))!=null){
-			//¼ì²éÓï·¨´íÎó£¬²¢ÎªRunningType¸³Öµ
+			//ï¿½ï¿½ï¿½ï¿½ï·¨ï¿½ï¿½ï¿½ó£¬²ï¿½ÎªRunningTypeï¿½ï¿½Öµ
 			checkNode((pnode.getChildren().get(0)));
 			checkNode((pnode.getChildren().get(1)));
 
@@ -200,11 +200,13 @@ public class TypeCheck {
 		TreeNode tmpChild = pnode.getChildren().get(0);
 		LinkedList<SimpleType> tmpPara = judge_var.paraList;
 
-		if(tmpChild != null)		//¿ÉÄÜ²»´æÔÚ²ÎÊý
+		if(tmpChild != null)		//ï¿½ï¿½ï¿½Ü²ï¿½ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½
 			checkNode(tmpChild);
-		while(tmpChild!=null && tmpPara!=null){
-			//Ö»ÊÇ¼òµ¥µØÅÐ¶ÏÀàÐÍÃûÊÇ·ñÏàÍ¬
-			int i=0;
+
+		int i=0;
+
+		while(tmpChild!=null && i < tmpPara.size()){
+			//Ö»ï¿½Ç¼òµ¥µï¿½ï¿½Ð¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Í¬
 			if(tmpChild.getRunningType() != tmpPara.get(i).type){
 				System.out.println("Line "+pnode.getLineNumber()+", Error: parameter type does not match.\n");
 	 			//fflush(stdout);
@@ -214,17 +216,17 @@ public class TypeCheck {
 			tmpChild = tmpChild.getSibling();
 			i++;
 		}
-		if(tmpChild != null || tmpPara!=null){
+		if(tmpChild != null || i < tmpPara.size()){
 			System.out.println("Line "+pnode.getLineNumber()+", Error: number of parameters does not match.\n");
 	 		//fflush(stdout);
 	 		typeError();
 	 		// error = True;
 		}
 
-		//¼ÙÉè·µ»ØÖµÕýÈ·
+		//ï¿½ï¿½ï¿½è·µï¿½ï¿½Öµï¿½ï¿½È·
 		pnode.setRunningType(judge_var.retType);
 
-		// ÔÝÊ±ÎÞ·¨±È½Ï·µ»ØÖµ
+		// ï¿½ï¿½Ê±ï¿½Þ·ï¿½ï¿½È½Ï·ï¿½ï¿½ï¿½Öµ
 		// checkNode(pnode.getChildren().get(1));
 		// if(pnode.getChildren().get(1)->RunningType != judge_var->retType){
 		// 	printf("Line %d, Error: return data type does not match.\n",pnode.getLineNumber());
@@ -235,28 +237,28 @@ public class TypeCheck {
 	}
 
 	private void checkStmtAssign(TreeNode pnode) {
-		//¶ù×Ó0ÊÇÒ»¸ö±í´ïÊ½£¬ËùÒÔÏÈ¼ì²é¸Ã±í´ïÊ½ÊÇ·ñÓÐÓï·¨´íÎó
-		//È»ºó»ñµÃ±í´ïÊ½µÄÀàÐÍ
+		//ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¼ï¿½ï¿½Ã±ï¿½ï¿½Ê½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï·¨ï¿½ï¿½ï¿½ï¿½
+		//È»ï¿½ï¿½ï¿½Ã±ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		checkNode(pnode.getChildren().get(1));
-		//¶ù×Ó1ÊÇÒ»¸ö±äÁ¿£¬ÎÒÃÇÍ¨¹ýÃû×ÖÑ°ÕÒ±äÁ¿£¬Õâ¸ö±äÁ¿Ö»»áÓÐÒ»¸ö½Úµã
+		//ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ°ï¿½Ò±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Úµï¿½
 		VariableDef ssvar=SymbolTable.lookupVar((pnode.getChildren().get(0)).getAttribute().toString());
 		if(ssvar == null){
 			System.out.println("Line "+pnode.getLineNumber()+", Error: The variable "+(pnode.getChildren().get(0)).getAttribute().toString()+" is not declare.\n");
 	 	//	fflush(stdout);
 	 		typeError();
 		}
-		//Ê×ÏÈ£¬Õâ¸ö½Úµã²»ÄÜ¹»Îª³£Á¿
+		//ï¿½ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½ï¿½Úµã²»ï¿½Ü¹ï¿½Îªï¿½ï¿½ï¿½ï¿½
 		if (ssvar.isConst){	
 			System.out.println("Line "+pnode.getLineNumber()+", Error: The const variable "+(pnode.getChildren().get(0)).getAttribute().toString()+" can not be assigned.\n");
 	 		//fflush(stdout);
 	 		typeError();
 	 		// error = True;
 		}
-		//×ó±ßÊÇÒ»¸öExpNode,½á¹¹Ö»ÓÐÈýÖÖÇé¿ö£ºid,id[]ºÍid.id
-		//È»ºó£¬ÎÒÃÇ¼ì²éÕâ¸öExpNodeÊÇ·ñÓÐÓï·¨´íÎó£¬²¢ÇÒ»ñÈ¡Õâ¸öExpNodeµÄÀàÐÍ
+		//ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ExpNode,ï¿½á¹¹Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½id,id[]ï¿½ï¿½id.id
+		//È»ï¿½ï¿½ï¿½ï¿½ï¿½Ç¼ï¿½ï¿½ï¿½ï¿½ï¿½ExpNodeï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï·¨ï¿½ï¿½ï¿½ó£¬²ï¿½ï¿½Ò»ï¿½È¡ï¿½ï¿½ï¿½ExpNodeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		checkNode(pnode.getChildren().get(0));
 
-		//Èç¹û¸³Öµ·ûºÅ×óÓÒÁ½±ßµÄÀàÐÍ²»ÏàÍ¬£¬Ôò±¨´í
+		//ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ßµï¿½ï¿½ï¿½ï¿½Í²ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ò±¨´ï¿½
 		if(!nodeTypeEqual(pnode.getChildren().get(0),pnode.getChildren().get(1))){
 			System.out.println("Line "+pnode.getLineNumber()+", Error: The type of "+pnode.getChildren().get(0).getAttribute().toString()+" is different from the right hand.");
 		//	fflush(stdout);
@@ -266,7 +268,7 @@ public class TypeCheck {
 	}
 	private void checkStmtIf(TreeNode pnode) {
 		ExpType checkType;
-		//Óï·¨·ÖÎö»á±£Ö¤ifÖÁÉÙÓÐÁ½¶Î
+		//ï¿½ï·¨ï¿½ï¿½ï¿½ï¿½ï¿½á±£Ö¤ifï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
 		//panduan
 		checkNode(pnode.getChildren().get(0));
@@ -287,8 +289,8 @@ public class TypeCheck {
 	}
 	private void checkStmtFor(TreeNode pnode) {
 
-		//³õÊ¼Öµ
-		//Óï·¨·ÖÎö±£Ö¤forÖÁÉÙËÄ¶Î
+		//ï¿½ï¿½Ê¼Öµ
+		//ï¿½ï·¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤forï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½
 		checkNode(pnode.getChildren().get(0));
 		checkNode(pnode.getChildren().get(1));
 		checkNode(pnode.getChildren().get(2));
@@ -306,7 +308,7 @@ public class TypeCheck {
 	private void checkStmtWhile(TreeNode pnode) {
 		ExpType checkType;
 
-		//Óï·¨·ÖÎö±£Ö¤whileÖÁÉÙÁ½¸ö¶ù×Ó
+		//ï¿½ï·¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤whileï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		checkNode(pnode.getChildren().get(0));
 		checkNode(pnode.getChildren().get(1));
 
@@ -337,7 +339,7 @@ public class TypeCheck {
 		ExpType checkType;
 		TreeNode tmp;
 
-		//Óï·¨·ÖÎö±£Ö¤2¸ö¶ù×Ó
+		//ï¿½ï·¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¤2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		checkNode(pnode.getChildren().get(0));
 		checkNode(pnode.getChildren().get(1));
 
@@ -364,8 +366,7 @@ public class TypeCheck {
 	}
 
 	private void checkNode(TreeNode pnode) {
-		int size_param;
-		
+
 		if(pnode.getKind()==StmtKind.ASSIGN){
 			checkStmtAssign(pnode);
 		}else if(pnode.getKind()==StmtKind.IF){
@@ -395,18 +396,24 @@ public class TypeCheck {
 			checkNodeExpression(pnode);
 		}
 		if(pnode.getKind()==DeclKind.ROUTINEHEAD){
-			size_param=SymbolTable.enterNewScope(pnode);
+
+			SymbolTable.enterNewScope(pnode);
 			if (pnode.getChildren().get(3)!=null)
 					checkNode(pnode.getChildren().get(3));
+
 		}else if(pnode.getKind()==DeclKind.FUNCTION){
+
 			(pnode.getChildren().get(1)).setAttribute((pnode.getChildren().get(0)).getAttribute().toString());
-			checkNode(pnode.getChildren().get(1)); //routine_head 			
-			size_param=SymbolTable.leaveScope();
+			SymbolTable.addProcOrFunc(pnode.getChildren().get(0));
+			checkNode(pnode.getChildren().get(1)); //routine_head
+			SymbolTable.leaveScope();
+
 		}else if(pnode.getKind()==DeclKind.PROCEDURE){
+
 			(pnode.getChildren().get(1)).setAttribute((pnode.getChildren().get(0)).getAttribute().toString());
-			checkNode(pnode.getChildren().get(1)); //routine_head 
-		
-			size_param=SymbolTable.leaveScope();
+			SymbolTable.addProcOrFunc(pnode.getChildren().get(0));
+			checkNode(pnode.getChildren().get(1)); //routine_head
+			SymbolTable.leaveScope();
 		}
         
 
