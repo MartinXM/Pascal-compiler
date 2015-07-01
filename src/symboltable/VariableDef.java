@@ -8,7 +8,7 @@ public class VariableDef {
 	public ExpType type;
 	public boolean isConst;
 	public int nestLevel;
-	public Object pAttr; // pAttr point to the definition detail when type is enum, array or record, otherwise null
+	public Object pAttr;
 	public MemLoc memloc;
 
 	public VariableDef(String name, ExpType type, boolean isConst, int nestLevel, Object pAttr, int offset) {

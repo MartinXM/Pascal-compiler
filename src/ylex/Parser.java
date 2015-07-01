@@ -765,9 +765,9 @@ final static String yyrule[] = {
 //      if ( args.length > 0 ) {
             // parse a file
         System.out.println("Input file path:");
-//        Scanner in = new Scanner(System.in);
-//        String filePath = in.nextLine();
-        yyparser = new Parser(new FileReader("/Users/kehanyang/Documents/Documents/Courses/Computer Courses/Compiler Design/project/Pascal-compiler/test/gcd.txt"));
+        Scanner in = new Scanner(System.in);
+        String filePath = in.nextLine();
+        yyparser = new Parser(new FileReader(filePath));
 //      }
 //      else {
 //          // interactive mode

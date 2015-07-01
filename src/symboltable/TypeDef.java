@@ -6,7 +6,7 @@ public class TypeDef implements Comparable {
 	public String name; // 用在typeHashTable里面的时候，name表示类型的名称，用在RecordNode中的时候，name表示record成员变量的名字
 	public ExpType type;
 	public int nestLevel;
-	public Object pAttr; // pAttr point to the definition detail when type is enum, array or record, otherwise null
+	public Object pAttr;
 	public int size;
 
 	public TypeDef(String name) {
